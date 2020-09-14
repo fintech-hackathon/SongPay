@@ -38,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
                 if(passEditText.getText().length() > 8) {
+                    String ID = idEditText.getText().toString();
+                    String Password = passEditText.getText().toString();
+                    homeIntent.putExtra("ID",ID);
+                    homeIntent.putExtra("PASSWORD",Password);
                     startActivity(homeIntent);
                 }else{
                     Toast.makeText(getApplicationContext(),"Required password over 8 characters",Toast.LENGTH_SHORT).show();

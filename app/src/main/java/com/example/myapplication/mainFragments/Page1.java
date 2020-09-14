@@ -1,5 +1,6 @@
 package com.example.myapplication.mainFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.AwardActivity;
+import com.example.myapplication.PointChargeActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.RemainPointActivity;
+import com.example.myapplication.ReserveActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,12 +59,54 @@ public class Page1 extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
+    View remainView,chargeView,reserveView,awardView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_page1, container, false);
+
+        remainView = v.findViewById(R.id.remainPointView);
+        chargeView = v.findViewById(R.id.pointChargeView);
+        reserveView = v.findViewById(R.id.reserveKaraokeView);
+        awardView = v.findViewById(R.id.awardView);
+
+        viewClick();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_page1, container, false);
+        return v;
+    }
+
+    void viewClick(){
+        remainView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), RemainPointActivity.class);
+                startActivity(intent);
+            }
+        });
+        chargeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), PointChargeActivity.class);
+                startActivity(intent);
+            }
+        });
+        reserveView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ReserveActivity.class);
+                startActivity(intent);
+            }
+        });
+        awardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AwardActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

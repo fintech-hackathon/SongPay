@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Page1 page1Fragment = new Page1();
     Page2 page2Fragment = new Page2();
     Page3 page3Fragment = new Page3();
+    String Id,Password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        Intent intent = getIntent();
+
+//        ID, Password 정보로 사용자 정보 읽어오면 될 것 같습니당!
+        Id  = intent.getStringExtra("ID");
+        Password  = intent.getStringExtra("PASSWORD");
+//        Toast.makeText(getApplicationContext(), Id+" : " + Password, Toast.LENGTH_SHORT).show();
     }
 
     void init(){
