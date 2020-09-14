@@ -11,6 +11,7 @@
     <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="backgroundTint">?attr/colorPrimaryDark</item>
+
     </style>
 
 </resources>
