@@ -42,7 +42,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:startIconContentDescription="계좌 번호"
-        android:hint="게좌 번호를 입력해주세요."
+        android:hint="계좌 번호를 입력해주세요."
         app:startIconDrawable="@drawable/ic_account_wallet_24">
 
         <com.google.android.material.textfield.TextInputEditText

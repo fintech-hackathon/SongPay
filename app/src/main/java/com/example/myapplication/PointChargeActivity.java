@@ -44,11 +44,11 @@ public class PointChargeActivity extends AppCompatActivity {
 //                충전 금액
                 chargePoint = pointChargeEditText.getText().toString();
 
-                if(name != null || account != null || chargePoint != null) {
+                if(!name.isEmpty() && !account.isEmpty() && !chargePoint.isEmpty()) {
 //                Toast.makeText(PointChargeActivity.this, "입금자 성함 : " + name + "\n계좌 번호 : " + account + "\n충전 금액 : " + chargePoint, Toast.LENGTH_SHORT).show();
                     Toast.makeText(PointChargeActivity.this, "충전이 완료되었습니다!", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
+                } else {
                     Toast.makeText(PointChargeActivity.this, "값을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
