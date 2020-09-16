@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.AwardActivity;
 import com.example.myapplication.PointChargeActivity;
+import com.example.myapplication.CurrentMoneyActivity;
 import com.example.myapplication.R;
-import com.example.myapplication.RemainPointActivity;
-import com.example.myapplication.ReserveActivity;
+import com.example.myapplication.FindActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -83,7 +83,7 @@ public class Page1 extends Fragment {
         remainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), RemainPointActivity.class);
+                Intent intent = new Intent(getContext(), CurrentMoneyActivity.class);
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ public class Page1 extends Fragment {
         reserveView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(), ReserveActivity.class);
+                Intent intent = new Intent(getContext(), FindActivity.class);
                 startActivity(intent);
             }
         });

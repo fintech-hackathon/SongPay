@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
-    private String[] title,sub;
+    private String[] title,address;
     MapHolder mapHolder;
 
-    public MapAdapter(String[] title, String[] sub){
+    public MapAdapter(String[] title, String[] address){
         this.title = title;
-        this.sub = sub;
+        this.address = address;
     }
 
     public static class MapHolder extends RecyclerView.ViewHolder{
@@ -37,9 +39,20 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MapAdapter.MapHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MapAdapter.MapHolder holder, final int position) {
         holder.titleTextView.setText(this.title[position]);
-        holder.subTextView.setText(this.sub[position]);
+        holder.subTextView.setText(this.address[position]);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent reserveIntent = new Intent(context,ReserveActivity.class);
+                reserveIntent.putExtra("title",title[position]);
+                reserveIntent.putExtra("address",address[position]);
+                context.startActivity(reserveIntent);
+            }
+        });
     }
 
     @Override

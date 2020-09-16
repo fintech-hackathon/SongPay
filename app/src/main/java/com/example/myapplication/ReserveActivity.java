@@ -1,89 +1,112 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.LocationTrackingMode;
-import com.naver.maps.map.MapFragment;
-import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.NaverMapOptions;
-import com.naver.maps.map.OnMapReadyCallback;
-import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.util.FusedLocationSource;
+public class ReserveActivity extends AppCompatActivity {
 
-public class ReserveActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-    private FusedLocationSource locationSource;
-    private NaverMap naverMap;
+//    노래방이름 , 주소, 가격정보(DB에서?)
+    TextView titleTextView, addressTextView,priceInfoTextView,priceTextView;
+    Button reserveButton;
+    AutoCompleteTextView roomSelectDropdownMenu, songSelectDropdownMenu;
+    TimePicker timePicker;
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter adapter;
+    PopupMenu roomSelectMenu,songSelectMenu;
+
+    void init() {
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
+        String address = intent.getStringExtra("address");
+
+        titleTextView = findViewById(R.id.titleTextView);
+        addressTextView = findViewById(R.id.addressTextView);
+        priceInfoTextView  = findViewById(R.id.priceInfoTextView);
+
+        roomSelectDropdownMenu = findViewById(R.id.roomSelectDropdownMenu);
+        songSelectDropdownMenu = findViewById(R.id.songSelectDropdownMenu);
+        timePicker = findViewById(R.id.timePicker);
+
+        priceTextView = findViewById(R.id.priceTextView);
+        reserveButton = findViewById(R.id.reserveButton);
+
+        roomSelectDropdownMenu.setInputType(InputType.TYPE_NULL);
+        songSelectDropdownMenu.setInputType(InputType.TYPE_NULL);
+
+        titleTextView.setText(title);
+        addressTextView.setText(address);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
 
-        naver_Map();
+        init();
 
-
-        recyclerView = findViewById(R.id.mapRecyclerView);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        String[] titleData =  {"악쓰는 하마 2호점","홍대M가라오케점","스토리M멀티방"};
-        String[] subData =  {"서울특별시 마포구 홍익로3길8","서울특별시 마포구 와우산로 315","서울특별시 마포구 양화로 183번길"};
-
-        adapter = new MapAdapter(titleData, subData);
-
-        recyclerView.setAdapter(adapter);
-    }
-
-    void naver_Map(){
-        locationSource =
-                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
-
-        FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
-        if (mapFragment == null) {
-            NaverMapOptions options = new NaverMapOptions().zoomControlEnabled(false);
-            mapFragment = MapFragment.newInstance(options);
-            fm.beginTransaction().add(R.id.map, mapFragment).commit();
-        }
-        mapFragment.getMapAsync(this);
-
-    }
-
-//    location Permission
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,  @NonNull int[] grantResults) {
-        if (locationSource.onRequestPermissionsResult(
-                requestCode, permissions, grantResults)) {
-            if (!locationSource.isActivated()) { // 권한 거부됨
-                naverMap.setLocationTrackingMode(LocationTrackingMode.None);
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                String strTime = hourOfDay + " : " + minute;
+                Toast.makeText(getApplicationContext(), strTime, Toast.LENGTH_SHORT).show();
             }
-            return;
-        }
-        super.onRequestPermissionsResult(
-                requestCode, permissions, grantResults);
+        });
+
+
+        String[] RoomsArray = new String[]{"Item 1", "Item 2", "Item 3", "Item 4"};
+
+        roomSelectDropdownMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomSelectMenu = new PopupMenu(getApplicationContext(), view);
+
+                roomSelectMenu.getMenu().add("1번방");
+                roomSelectMenu.getMenu().add("2번방");
+                roomSelectMenu.getMenu().add("3번방");
+                roomSelectMenu.show();
+
+                roomSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        roomSelectDropdownMenu.setText(menuItem.getTitle().toString());
+                        return onOptionsItemSelected(menuItem);
+                    }
+                });
+            }
+        });
+
+        songSelectDropdownMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                songSelectMenu = new PopupMenu(getApplicationContext(), view);
+
+                songSelectMenu.getMenu().add("3곡");
+                songSelectMenu.getMenu().add("5곡");
+                songSelectMenu.getMenu().add("10곡");
+                songSelectMenu.getMenu().add("30곡");
+                songSelectMenu.show();
+
+                songSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        songSelectDropdownMenu.setText(menuItem.getTitle().toString());
+                        return onOptionsItemSelected(menuItem);
+                    }
+                });
+            }
+        });
     }
 
-    @Override
-    public void onMapReady(@NonNull NaverMap naverMap) {
-        this.naverMap = naverMap;
-        naverMap.setLocationSource(locationSource);
 
-        // Marker Data
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(37.5670135, 126.9783740));
-        marker.setMap(naverMap);
-    }
 }

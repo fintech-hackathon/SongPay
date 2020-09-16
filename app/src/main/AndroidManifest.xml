@@ -12,16 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ReserveActivity"></activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="b6wqcy0uvf" />
 
-        <activity android:name=".ScanQrActivity"></activity>
+        <activity android:name=".ScanQrActivity" />
         <activity android:name=".AwardActivity" />
-        <activity android:name=".ReserveActivity" />
+        <activity android:name=".FindActivity" />
         <activity android:name=".PointChargeActivity" />
-        <activity android:name=".RemainPointActivity" />
-        <activity android:name=".testActivity" />
+        <activity android:name=".CurrentMoneyActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
