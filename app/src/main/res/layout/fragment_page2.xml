@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mainFragments.Page2">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.vipulasri.ticketview.TicketView
+        android:id="@+id/ticketView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello, Page 2" />
+        android:layout_height="400dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:ticketDividerPadding="0dp"
+        app:ticketDividerType="dash"
+        app:ticketElevation="14dp"
+        app:ticketOrientation="horizontal"
+        app:ticketScallopPositionPercent="50"
+        app:ticketScallopRadius="10dp"
+        app:ticketShowBorder="false"
+        app:ticketShowDivider="true" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="홍길동 님"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/ticketView"
+        app:layout_constraintStart_toStartOf="@+id/ticketView"
+        app:layout_constraintTop_toTopOf="@+id/ticketView" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="예약 내역"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/karaokeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="170dp"
+        android:text="노래방 이름"
+        app:layout_constraintBottom_toBottomOf="@+id/ticketView"
+        app:layout_constraintEnd_toEndOf="@+id/ticketView"
+        app:layout_constraintStart_toStartOf="@+id/ticketView" />
+
+    <TextView
+        android:id="@+id/numberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="노래방번호"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/ticketView"
+        app:layout_constraintTop_toBottomOf="@+id/karaokeName" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

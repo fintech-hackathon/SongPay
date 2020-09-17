@@ -106,6 +106,15 @@ public class ReserveActivity extends AppCompatActivity {
                 });
             }
         });
+
+        reserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "예약이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                finish();
+                // dialog로 표시
+            }
+        });
     }
 
 

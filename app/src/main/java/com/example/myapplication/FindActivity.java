@@ -93,6 +93,17 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Marker Data - 마커 배열
         List<Marker> markers = new ArrayList<>();
+        Marker marker1 = new Marker();
+        Marker marker2 = new Marker();
+        Marker marker3 = new Marker();
+
+        marker1.setPosition(new LatLng(37.567,126.9));
+        marker2.setPosition(new LatLng(37.566,126.8));
+        marker3.setPosition(new LatLng(37.565,126.7));
+
+        marker1.setMap(naverMap);
+        marker2.setMap(naverMap);
+        marker3.setMap(naverMap);
 
         for (int i = 0; i < 1; ++i) {
             // 각 마커 데이터를 입력하면 됩니다.
