@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 네이버 지도 현재 위치 권한 여부 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 쏭페이 콘테스트 녹음 권한 여부 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReserveActivity"></activity>
+        <activity android:name=".MusicPlayerActivity"></activity>
+        <activity android:name=".RecommendationActivity" />
+        <activity android:name=".RecordActivity" />
+        <activity android:name=".ReserveActivity" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

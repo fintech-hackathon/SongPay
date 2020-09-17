@@ -39,4 +39,8 @@ dependencies {
 
     // Ticket Open source
     implementation 'com.vipulasri:ticketview:1.0.9'
+
+    // lottie
+    implementation 'com.airbnb.android:lottie:3.4.2'
+
 }
