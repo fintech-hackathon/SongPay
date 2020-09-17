@@ -1,14 +1,18 @@
 package com.example.myapplication.mainFragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
-import com.vipulasri.ticketview.TicketView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,13 +61,58 @@ public class Page2 extends Fragment {
         }
     }
 
-    TicketView ticketView;
+    //      이름              노래방 이름          방 번호            예약 곡 수
+    TextView nameTextView, karaokeNameTextView, numberTextView, songTextView;
+    Button confirmButton;
+
+    String Id;
+    Boolean isReserve = false;
+
+    void init(View v) {
+        nameTextView = v.findViewById(R.id.nameTextView);
+        karaokeNameTextView = v.findViewById(R.id.karaokeNameTextView);
+        numberTextView = v.findViewById(R.id.numberTextView);
+        songTextView = v.findViewById(R.id.songTextView);
+        confirmButton = v.findViewById(R.id.confirmButton);
+
+        // 저장한 [ID, Password]를 불러옵니다.
+        Context context = getActivity();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+        Id = sharedPreferences.getString("Id", "default Name");  // 불러올려는 key, default Value
+        // 노래방 예약 내역을 DB 에 저장해서 불러 오면 될 것 같습니다!(isReserve)
+
+        nameTextView.setText(Id + " 님");
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_page2, container, false);
+        View v = inflater.inflate(R.layout.fragment_page2, container, false);
 
+
+        init(v);
+
+        if (isReserve) {
+            // 불러온 자료를 여기에 넣으면 됩니다.
+            karaokeNameTextView.setText("악쓰는하마 홍대 2호점");
+            numberTextView.setText("1번 방");
+            songTextView.setText("5곡");
+
+            // 노래방 이용 시작!
+            confirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getContext(), "쏭페이를 이용해주셔서 감사합니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            karaokeNameTextView.setText("예약 내역이 없습니다...");
+            numberTextView.setText("");
+            songTextView.setText("");
+            confirmButton.setEnabled(false);
+        }
 
 
         return v;

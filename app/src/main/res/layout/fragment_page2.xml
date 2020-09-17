@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/karaokeName"
+        android:id="@+id/karaokeNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="170dp"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toStartOf="@+id/ticketView" />
 
     <TextView
-        android:id="@+id/numberText"
+        android:id="@+id/numberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -67,7 +67,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/ticketView"
-        app:layout_constraintTop_toBottomOf="@+id/karaokeName" />
+        app:layout_constraintTop_toBottomOf="@+id/karaokeNameTextView" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline7"
@@ -75,6 +75,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/songTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="곡 수"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/ticketView"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/karaokeNameTextView" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="노래방 이용하기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ticketView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

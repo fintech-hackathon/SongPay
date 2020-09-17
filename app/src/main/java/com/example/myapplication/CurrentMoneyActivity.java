@@ -26,7 +26,7 @@ public class CurrentMoneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_current_money);
 
         // 저장한 [ID, Password]를 불러옵니다.
-        SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);    // test 이름의 기본모드 설정, 만약 test key값이 있다면 해당 값을 불러옴.
+        SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);
         Id = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
         Password = sharedPreferences.getString("Password","default Password");  // 불러올려는 key, default Value
 
