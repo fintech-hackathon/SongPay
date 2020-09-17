@@ -37,4 +37,6 @@ dependencies {
     implementation 'com.naver.maps:map-sdk:3.9.1'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 
+    // Ticket Open source
+    implementation 'com.vipulasri:ticketview:1.0.9'
 }

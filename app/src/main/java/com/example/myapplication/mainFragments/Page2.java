@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.vipulasri.ticketview.TicketView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,10 +57,15 @@ public class Page2 extends Fragment {
         }
     }
 
+    TicketView ticketView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_page2, container, false);
+        View v =  inflater.inflate(R.layout.fragment_page2, container, false);
+
+
+
+        return v;
     }
 }
