@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("msg",ID);
                 Log.i("msg",Password);
 
-                String url = "http://115.85.180.70:3001/user/login";
+                String url = "http://115.85.180.70:3001/user/join";
 
                 JSONObject object = new JSONObject();
 
@@ -79,13 +79,24 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("error",e.getMessage());
                 }
 
+                if(result.equals("success")){
+                    Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                    homeIntent.putExtra("ID",ID);
+                    homeIntent.putExtra("PASSWORD",Password);
+
+                    LoginSuccess(ID, Password);
+                    startActivity(homeIntent);
+                }
+                else{
+                    //로그인 실패 메세지 보여주기
+                }
+
 
             }
         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // 취소
-
             }
         });
         accountDialog = builder.create();
