@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                     homeIntent.putExtra("ID",ID);
                     homeIntent.putExtra("PASSWORD",Password);
 
-                    String url = "http://172.30.1.33:3001/user/login";
+                    String url = "http://115.85.180.70:3001/user/login";
 
                     JSONObject object = new JSONObject();
 
