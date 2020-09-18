@@ -49,7 +49,37 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO: 회원가입 진행 하시면 됩니다.
+
+                String ID = idEditText.getText().toString();
+                String Password = passEditText.getText().toString();
+
+                Log.i("msg","회원가입");
+                Log.i("msg",ID);
+                Log.i("msg",Password);
+
+                String url = "http://115.85.180.70:3001/user/login";
+
+                JSONObject object = new JSONObject();
+
+                try{
+                    object.put("u_id",ID);
+                    object.put("u_pw",Password);
+                }
+                catch (Exception e){
+                    Log.e("error",e.getMessage());
+                }
+
+                // AsyncTask를 통해 HttpURLConnection 수행.
+                NetworkTask networkTask = new NetworkTask(url, object,"POST");
+                String result = null;
+                try{
+                    result = networkTask.execute().get();
+                }
+                catch(Exception e){
+                    Log.i("error",e.getMessage());
+                }
+
+
             }
         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
