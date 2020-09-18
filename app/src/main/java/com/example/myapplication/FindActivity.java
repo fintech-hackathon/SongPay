@@ -42,13 +42,14 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // 노래방 리스트 데이터 입니다.
+        // TODO : 노래방 리스트 데이터 불러오면 됩니다.(데이터를 어떻게 불러오실지 몰라서 일단 String[]로 남겨둡니다...)
         String[] titleData =  {"악쓰는 하마 2호점","홍대M가라오케점","스토리M멀티방"};
         String[] subData =  {"서울특별시 마포구 홍익로3길8","서울특별시 마포구 와우산로 315","서울특별시 마포구 양화로 183번길"};
 
         adapter = new MapAdapter(titleData, subData);
 
         recyclerView.setAdapter(adapter);
+        // ListView 클릭 이벤트는 (MapAdapter.java)에 있습니다.
     }
 
     void naver_Map(){
@@ -91,31 +92,29 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 현재 위치 버튼 활성화
         uiSettings.setLocationButtonEnabled(true);
 
+        // 좌표 배열
+        ArrayList<LatLng> markerPoints = new ArrayList<>();
+        // TODO : 이 부분에 좌표값 불러오면 됩니다.
+        markerPoints.add(new LatLng(37.5670135,126.9783740));
+        markerPoints.add(new LatLng(37.4670145,126.9383730));
+        markerPoints.add(new LatLng(37.7670155,126.5783720));
+        markerPoints.add(new LatLng(37.2670165,126.3783710));
+        markerPoints.add(new LatLng(37.1670175,126.6283700));
+
         // Marker Data - 마커 배열
-        List<Marker> markers = new ArrayList<>();
-        Marker marker1 = new Marker();
-        Marker marker2 = new Marker();
-        Marker marker3 = new Marker();
+        ArrayList<Marker> markers = new ArrayList<>();
 
-        marker1.setPosition(new LatLng(37.567,126.9));
-        marker2.setPosition(new LatLng(37.566,126.8));
-        marker3.setPosition(new LatLng(37.565,126.7));
 
-        marker1.setMap(naverMap);
-        marker2.setMap(naverMap);
-        marker3.setMap(naverMap);
-
-        for (int i = 0; i < 1; ++i) {
-            // 각 마커 데이터를 입력하면 됩니다.
+        for (int i = 0; i < markerPoints.size(); i++) {
             Marker marker = new Marker();
             // 마커 좌표
-            marker.setPosition(new LatLng(37.5670135, 126.9783740));
+            marker.setPosition(markerPoints.get(i));
             markers.add(marker);
         }
 
-        // markers 배열에 있는 marker들을 네이버맵에 매핑
-        for (Marker marker : markers) {
-            marker.setMap(naverMap);
+        // markers 배열에 있는 marker 들을 네이버맵에 매핑
+        for (Marker m : markers) {
+            m.setMap(naverMap);
         }
     }
 }
