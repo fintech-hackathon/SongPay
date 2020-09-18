@@ -3,13 +3,17 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.util.NetworkTask;
 import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,9 +48,36 @@ public class LoginActivity extends AppCompatActivity {
                     homeIntent.putExtra("ID",ID);
                     homeIntent.putExtra("PASSWORD",Password);
 
-//                    로그인 성공
-                    LoginSuccess(ID, Password);
-                    startActivity(homeIntent);
+                    String url = "http://172.30.1.33:3001/user/login";
+
+                    JSONObject object = new JSONObject();
+
+                    try{
+                        object.put("u_id",ID);
+                        object.put("u_pw",Password);
+                    }
+                    catch (Exception e){
+                        Log.e("error",e.getMessage());
+                    }
+
+                    // AsyncTask를 통해 HttpURLConnection 수행.
+                    NetworkTask networkTask = new NetworkTask(url, object,"POST");
+                    String result = null;
+                    try{
+                        result = networkTask.execute().get();
+                    }
+                    catch(Exception e){
+                        Log.i("error",e.getMessage());
+                    }
+
+                    if(result.equals("success")){
+                        // 로그인 성공
+                        LoginSuccess(ID, Password);
+                        startActivity(homeIntent);
+                    }
+
+
+
                 }else{
                     Toast.makeText(getApplicationContext(),"Required password over 8 characters",Toast.LENGTH_SHORT).show();
                 }

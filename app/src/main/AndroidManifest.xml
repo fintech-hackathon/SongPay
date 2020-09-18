@@ -4,7 +4,7 @@
     <!-- 네이버 지도 현재 위치 권한 여부 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 쏭페이 콘테스트 녹음 권한 여부 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".MusicPlayerActivity"></activity>
         <activity android:name=".RecommendationActivity" />
         <activity android:name=".RecordActivity" />
