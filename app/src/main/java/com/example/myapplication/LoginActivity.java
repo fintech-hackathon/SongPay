@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity {
                     String ID = idEditText.getText().toString();
                     String Password = passEditText.getText().toString();
                     homeIntent.putExtra("ID",ID);
-                    homeIntent.putExtra("PASSWORD",Password);
+                        homeIntent.putExtra("PASSWORD",Password);
 
-                    String url = "http://115.85.180.70:3001/user/login";
+                        String url = "http://115.85.180.70:3001/user/login";
 
-                    JSONObject object = new JSONObject();
+                        JSONObject object = new JSONObject();
 
-                    try{
+                        try{
                         object.put("u_id",ID);
                         object.put("u_pw",Password);
                     }
@@ -77,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
 
-
                 }else{
                     Toast.makeText(getApplicationContext(),"Required password over 8 characters",Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     // 로그인이 성공하면, 사용자의 [ID와 password]를 다른 Activity에서도 쓸 수 있게 저장해둡니다.
     void LoginSuccess(String Id, String Password){
