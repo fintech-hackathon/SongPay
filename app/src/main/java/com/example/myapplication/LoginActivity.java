@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.util.NetworkTask;
@@ -19,6 +22,10 @@ public class LoginActivity extends AppCompatActivity {
 
     TextInputEditText idEditText,passEditText;
     Button loginButton;
+
+    // 알림창
+    AlertDialog accountDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,24 @@ public class LoginActivity extends AppCompatActivity {
         idEditText = findViewById(R.id.idTextInput);
         passEditText = findViewById(R.id.passwordInputText);
         loginButton = findViewById(R.id.loginButton);
+
+        // alert 창 builder 설정
+        Context context;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("로그인 정보가 없습니다.").setMessage("입력하신 정보로 회원가입을 진행하시겠습니까?");
+        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // TODO: 회원가입 진행 하시면 됩니다.
+            }
+        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // 취소
+
+            }
+        });
+        accountDialog = builder.create();
 
     }
 
@@ -74,9 +99,10 @@ public class LoginActivity extends AppCompatActivity {
                         // 로그인 성공
                         LoginSuccess(ID, Password);
                         startActivity(homeIntent);
+                    }else{
+                        //Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                        accountDialog.show();
                     }
-
-
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Required password over 8 characters",Toast.LENGTH_SHORT).show();
