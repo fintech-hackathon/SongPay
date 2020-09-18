@@ -42,6 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         passEditText = findViewById(R.id.passwordInputText);
         loginButton = findViewById(R.id.loginButton);
 
+
+        idEditText.setText("bonobono1");
+        passEditText.setText("123412341");
+
         // alert 창 builder 설정
         Context context;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -49,13 +53,51 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO: 회원가입 진행 하시면 됩니다.
+
+                String ID = idEditText.getText().toString();
+                String Password = passEditText.getText().toString();
+
+
+                String url = "http://115.85.180.70:3001/user/join";
+
+                JSONObject object = new JSONObject();
+
+                try{
+                    object.put("u_id",ID);
+                    object.put("u_pw",Password);
+                }
+                catch (Exception e){
+                    Log.e("error",e.getMessage());
+                }
+
+                // AsyncTask를 통해 HttpURLConnection 수행.
+                NetworkTask networkTask = new NetworkTask(url, object,"POST");
+                String result = null;
+                try{
+                    result = networkTask.execute().get();
+                }
+                catch(Exception e){
+                    Log.i("error",e.getMessage());
+                }
+
+                if(result.equals("success")){
+                    Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                    homeIntent.putExtra("ID",ID);
+                    homeIntent.putExtra("PASSWORD",Password);
+
+                    LoginSuccess(ID, Password);
+                    startActivity(homeIntent);
+                }
+                else{
+                    //로그인 실패 메세지 보여주기
+                }
+
+
             }
         }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // 취소
-
             }
         });
         accountDialog = builder.create();

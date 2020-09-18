@@ -1,12 +1,18 @@
 package com.example.myapplication.mainFragments;
 
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +23,12 @@ import com.example.myapplication.PointChargeActivity;
 import com.example.myapplication.CurrentMoneyActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.FindActivity;
+import com.example.myapplication.util.NetworkTask;
+
+import org.json.JSONObject;
+
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,17 +70,21 @@ public class Page1 extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
+
+
     View remainView,chargeView,reserveView,awardView;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
+    TextView remainTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +96,48 @@ public class Page1 extends Fragment {
         chargeView = v.findViewById(R.id.pointChargeView);
         reserveView = v.findViewById(R.id.reserveKaraokeView);
         awardView = v.findViewById(R.id.awardView);
+        remainTextView = v.findViewById(R.id.remainTextView);
+
+
+
+        String url = "http://115.85.180.70:3001/coocon/checkAccount";
+        JSONObject object = new JSONObject();
+
+
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("User", MODE_PRIVATE);
+        String ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
+
+
+
+        try{
+            object.put("u_id",ID);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        String result = null;
+
+        try{
+            result = networkTask.execute().get();
+
+            JSONObject obj = new JSONObject(result);
+            String BAL_AMT = obj.get("BAL_AMT").toString();
+            String REPY_CD = obj.get("REPY_CD").toString();
+
+            if(REPY_CD.equals("0000")){
+                remainTextView.setText(BAL_AMT);
+            }
+            else{
+                remainTextView.setText("error");
+            }
+
+
+        }
+        catch(Exception e){
+            Log.i("error",e.getMessage());
+        }
 
         viewClick();
         // 최근 노래 목록
@@ -128,7 +186,4 @@ public class Page1 extends Fragment {
         String[] singer = {"홍길동","박찬영"};
 
         adapter = new HorizontalMusicAdapter(image, title,singer);
-
-        recyclerView.setAdapter(adapter);
-    }
-}
+    }}
