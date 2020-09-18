@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.myapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,22 +64,28 @@ public class Page3 extends Fragment {
         }
     }
 
-    TextView nameTextView;
+    TextView nameTextView, descriptionTextView;
     Button confirmButton;
 
     TextInputEditText accountEditText, nameEditText;
-
+    TextInputLayout nameLayout;
     String Id;
+    LottieAnimationView lottieAnimationView;
+
     // 가상의 계좌 번호입니다. (이 부분은 DB연동해서 써야 될 겁니다.)
-    int accountNumber = 0;
+    boolean isAccount = true;
 
 
     void init(View v) {
         nameTextView = v.findViewById(R.id.nameTextView);
+        descriptionTextView = v.findViewById(R.id.descriptionTextView);
         confirmButton = v.findViewById(R.id.confirmButton);
 
         accountEditText = v.findViewById(R.id.accountNumberEditText);
+        nameLayout = v.findViewById(R.id.nameTextInputLayout);
         nameEditText = v.findViewById(R.id.nameEditText);
+        lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
+
         // 저장한 [ID, Password]를 불러옵니다.
         Context context = getActivity();
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -86,20 +94,31 @@ public class Page3 extends Fragment {
         nameTextView.setText(Id + " 님");
 
         // DB에 등록된 계좌번호가 없을 시 if
-        if (accountNumber == 0) {
+        if (!isAccount) {
             // 계좌번호 등록 이벤트
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (accountEditText.getText().toString() == "" || nameEditText.getText().toString() == "") {
+                    if (accountEditText.getText().toString().equals("") || nameEditText.getText().toString().equals("")) {
                         Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     } else {
-                        // 계좌 번호 등록 Request
+                        // TODO : 계좌 번호 등록 Request
                         Toast.makeText(getContext(), "계좌 등록이 성공되었습니다.\n" + accountEditText.getText().toString() + "\n" + nameEditText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        } else {
+        }
+        // 등록된 계좌번호가 있을 경우
+        else {
+            descriptionTextView.setText("등록된 계좌가 있습니다.");
+            nameLayout.setVisibility(View.INVISIBLE);
+            nameEditText.setVisibility(View.INVISIBLE);
+
+            // TODO : 계좌 정보 불러와 Set 시키면 됩니다.
+            accountEditText.setText("123-456789-12");
+            accountEditText.setEnabled(false);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.INVISIBLE);
 
         }
 
