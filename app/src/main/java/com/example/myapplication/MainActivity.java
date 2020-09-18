@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
+
+
         Intent intent = getIntent();
 
 //        ID, Password 정보로 사용자 정보 읽어오면 될 것 같습니당!
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void init(){
+
         bottomNavigation = findViewById(R.id.bottom_navigation);
 
         fragmentTransaction = fragmentManager.beginTransaction();

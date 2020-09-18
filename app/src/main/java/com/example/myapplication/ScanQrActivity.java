@@ -1,13 +1,20 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myapplication.util.NetworkTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import org.json.JSONObject;
 
 public class ScanQrActivity extends AppCompatActivity {
 
@@ -28,9 +35,47 @@ public class ScanQrActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
                 // todo
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                // 여기에 QR코드 스캔 후, 작업 진행하면 됩니다.
 
+
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                String url = "http://115.85.180.70:3001/user/charge";
+
+
+                SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);
+                String ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
+                String chargePoint = "";
+                try{
+                    JSONObject obj = new JSONObject(result.getContents());
+                    chargePoint = obj.getString("TRAN_AMT");
+                }
+                catch (Exception e){
+
+                }
+
+                JSONObject object = new JSONObject();
+                try{
+                    object.put("CUST_ID",ID);
+                    object.put("TRAN_AMT",chargePoint);
+                }
+                catch (Exception e){
+                    Log.e("error",e.getMessage());
+                }
+
+                NetworkTask networkTask = new NetworkTask(url, object,"POST");
+
+                String res = null;
+                try{
+                    res = networkTask.execute().get();
+                    Log.i("msg",res);
+                }
+                catch(Exception e){
+                    Log.i("error",e.getMessage());
+                }
+//                Toast.makeText(PointChargeActivity.this, "입금자 성함 : " + name + "\n계좌 번호 : " + account + "\n충전 금액 : " + chargePoint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScanQrActivity.this, "충전이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+
+                Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(homeIntent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -57,9 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                 String ID = idEditText.getText().toString();
                 String Password = passEditText.getText().toString();
 
-                Log.i("msg","회원가입");
-                Log.i("msg",ID);
-                Log.i("msg",Password);
 
                 String url = "http://115.85.180.70:3001/user/join";
 

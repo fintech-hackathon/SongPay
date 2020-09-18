@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,18 +70,16 @@ public class Page1 extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-
-
-
     }
+
+
     View remainView,chargeView,reserveView,awardView;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -187,7 +186,4 @@ public class Page1 extends Fragment {
         String[] singer = {"홍길동","박찬영"};
 
         adapter = new HorizontalMusicAdapter(image, title,singer);
-
-        recyclerView.setAdapter(adapter);
-    }
-}
+    }}
