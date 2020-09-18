@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.AwardActivity;
+import com.example.myapplication.HorizontalMusicAdapter;
+import com.example.myapplication.MusicAdapter;
 import com.example.myapplication.PointChargeActivity;
 import com.example.myapplication.CurrentMoneyActivity;
 import com.example.myapplication.R;
@@ -62,6 +66,9 @@ public class Page1 extends Fragment {
 
     }
     View remainView,chargeView,reserveView,awardView;
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +82,8 @@ public class Page1 extends Fragment {
         awardView = v.findViewById(R.id.awardView);
 
         viewClick();
-        // Inflate the layout for this fragment
+        // 최근 노래 목록
+        recentMusicListView(v);
         return v;
     }
 
@@ -108,5 +116,19 @@ public class Page1 extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+    void recentMusicListView(View v){
+        recyclerView = v.findViewById(R.id.recentMusicListView);
+        layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // 업로드된 영상 데이터랑 똑같이 맞추면 되겠습니다.
+        int[] image =  {R.mipmap.ic_musicimage_round,R.mipmap.ic_musicimage_round};
+        String[] title =  {"[다비치] 8282","[조정석] 아로하"};
+        String[] singer = {"홍길동","박찬영"};
+
+        adapter = new HorizontalMusicAdapter(image, title,singer);
+
+        recyclerView.setAdapter(adapter);
     }
 }
