@@ -42,6 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         passEditText = findViewById(R.id.passwordInputText);
         loginButton = findViewById(R.id.loginButton);
 
+
+        idEditText.setText("bonobono1");
+        passEditText.setText("123412341");
+
         // alert 창 builder 설정
         Context context;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
