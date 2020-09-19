@@ -76,13 +76,15 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // TODO : DB에서 노래 저장정보를 불러오면 됩니다.
+        // TODO : DB에서 노래정보 불러오면 됩니다.
         int[] image = {R.mipmap.ic_musicimage_round, R.mipmap.ic_musicimage_round};
         String[] title = {"[다비치] 8282", "[조정석] 아로하"};
         String[] singer = {"홍길동", "박찬영"};
         String[] youtube_url = {"FWTfKpZ0VWU", "mxJGDa7ThbE"};
+        int[] view = {10, 20};
+        int[] recommend = {5, 10};
 
-        adapter = new MusicAdapter(image, title, singer, youtube_url);
+        adapter = new MusicAdapter(image, title, singer, youtube_url, view, recommend);
 
         recyclerView.setAdapter(adapter);
     }

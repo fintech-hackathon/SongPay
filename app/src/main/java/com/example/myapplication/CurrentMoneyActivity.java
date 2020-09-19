@@ -252,10 +252,10 @@ public class CurrentMoneyActivity extends AppCompatActivity {
                     Log.i("msg",arrDate.toString());
                     dateAr.add(resultsdp.format(arrDate));
                     if(obj.get("t_type").toString().equals("0")){//충전
-                        subAr.add("충전          + "+obj.get("t_money").toString());
+                        subAr.add("충전/+ " + obj.get("t_money").toString());
                     }
                     else{//사용
-                        subAr.add("사용          - "+obj.get("t_money").toString());
+                        subAr.add("사용/- " + obj.get("t_money").toString());
                     }
                 }
             }
