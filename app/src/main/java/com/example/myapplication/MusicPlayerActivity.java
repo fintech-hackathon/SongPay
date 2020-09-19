@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+
 public class MusicPlayerActivity extends YouTubeBaseActivity {
 
     YouTubePlayerView youTubePlayerView;
@@ -112,7 +113,6 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
 
 
                 Toast.makeText(MusicPlayerActivity.this, "GOOD!", Toast.LENGTH_SHORT).show();
-
             }
         });
 
