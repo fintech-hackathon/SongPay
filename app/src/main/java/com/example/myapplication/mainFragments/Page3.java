@@ -14,9 +14,11 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.myapplication.R;
 import com.example.myapplication.util.NetworkTask;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonParser;
 
 import org.json.JSONException;
@@ -72,25 +74,34 @@ public class Page3 extends Fragment {
         }
     }
 
-    TextView nameTextView;
+    TextView nameTextView, descriptionTextView;
     Button confirmButton;
 
     TextInputEditText accountEditText, nameEditText;
+    TextInputLayout nameLayout;
+    LottieAnimationView lottieAnimationView;
+
     NetworkTask task;
     String Id;
+
+
     // 가상의 계좌 번호입니다. (이 부분은 DB연동해서 써야 될 겁니다.)
     String accountNumber = "";
-    String name="";
-    String result=null;
+    String name = "";
+    String result = null;
     String url1 = "http://115.85.180.70:3001/user/updateAccount";
     String url2 = "http://115.85.180.70:3001/user/getinfo";
 
     void init(View v) throws JSONException, ExecutionException, InterruptedException {
         nameTextView = v.findViewById(R.id.nameTextView);
+        descriptionTextView = v.findViewById(R.id.descriptionTextView);
         confirmButton = v.findViewById(R.id.confirmButton);
 
         accountEditText = v.findViewById(R.id.accountNumberEditText);
         nameEditText = v.findViewById(R.id.nameEditText);
+        nameLayout = v.findViewById(R.id.nameTextInputLayout);
+        lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
+
 
         final JSONObject object = new JSONObject();
 
@@ -100,7 +111,7 @@ public class Page3 extends Fragment {
         Id = sharedPreferences.getString("Id", "default Name");  // 불러올려는 key, default Value
 
         object.put("u_id", Id);
-        Log.i( "msg", Id);
+        Log.i("msg", Id);
 
         NetworkTask parser = new NetworkTask(url2, object, "POST");
         result = parser.execute().get();
@@ -135,7 +146,7 @@ public class Page3 extends Fragment {
                     String result = null;
                     try {
                         result = networkTask.execute().get();
-                        Toast.makeText(getContext(), "계좌 등록이 성공되었습니다.\n" +accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "계좌 등록이 성공되었습니다.\n" + accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Log.i("error", e.getMessage());
                     }
@@ -147,8 +158,19 @@ public class Page3 extends Fragment {
                     }
                 }
             });
-        } else {
-            Log.i("msg", "notnull");
+        }
+        // 등록된 계좌번호가 있을 경우
+        else {
+            descriptionTextView.setText("등록된 계좌가 있습니다.");
+            nameLayout.setVisibility(View.INVISIBLE);
+            nameEditText.setVisibility(View.INVISIBLE);
+
+            // TODO : 계좌 정보 불러와 Set 시키면 됩니다.
+            accountEditText.setText("123-456789-12");
+            accountEditText.setEnabled(false);
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.INVISIBLE);
+
         }
 
     }
