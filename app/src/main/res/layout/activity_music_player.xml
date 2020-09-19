@@ -7,13 +7,13 @@
     tools:context=".MusicPlayerActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,10 +52,10 @@
             </LinearLayout>
 
             <ImageButton
-                android:layout_margin="8dp"
                 android:id="@+id/youtubePlayButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="4"
                 android:src="@drawable/ic_baseline_play_circle_filled_24" />
 
@@ -103,13 +103,19 @@
             android:layout_marginBottom="8dp"
             android:text="다음 동영상" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/musicListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/musicListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+
 
     <view
         android:id="@+id/youtubeView"

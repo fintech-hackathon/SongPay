@@ -14,26 +14,31 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder> {
     private int[] image;
     private String[] title, singer, youtube_url;
+    private int[] view, recommend;
 
     MusicHolder musicHolder;
 
-    public MusicAdapter(int[] image, String[] title, String[] singer, String[] youtube_url) {
+    public MusicAdapter(int[] image, String[] title, String[] singer, String[] youtube_url, int[] view, int[] recommend) {
         this.image = image;
         this.title = title;
         this.singer = singer;
         this.youtube_url = youtube_url;
+        this.view = view;
+        this.recommend = recommend;
     }
 
 
-    public static class MusicHolder extends RecyclerView.ViewHolder{
+    public static class MusicHolder extends RecyclerView.ViewHolder {
         public ImageView musicImageView;
-        public TextView songTitleTextView,singerTextView;
+        public TextView songTitleTextView, singerTextView, viewTextView, recommendTextView;
 
-        public MusicHolder(View view){
+        public MusicHolder(View view) {
             super(view);
             this.musicImageView = view.findViewById(R.id.musicImageView);
             this.songTitleTextView = view.findViewById(R.id.songTitleTextView);
             this.singerTextView = view.findViewById(R.id.singerTextView);
+            this.viewTextView = view.findViewById(R.id.viewTextview);
+            this.recommendTextView = view.findViewById(R.id.recommendTextView);
         }
     }
 
@@ -51,12 +56,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         holder.musicImageView.setImageResource(this.image[position]);
         holder.songTitleTextView.setText(this.title[position]);
         holder.singerTextView.setText(this.singer[position]);
+        holder.recommendTextView.setText(String.valueOf(this.recommend[position]));
+        holder.viewTextView.setText(String.valueOf(this.view[position]));
 
         // 리스트뷰 아이템 클릭시, 음악 재생 화면(MusicPlayerActivity.java)로 전환.
         // TODO : 해당 아이템 youtube 읽어올 데이터 정의해서, playerIntent 랑 같이 전환하면 되겠습니다.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO : 여기에 조회수 증가하는 로직 짜면 되겠습니다.
                 Context context = view.getContext();
                 Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
                 playerIntent.putExtra("link", youtube_url[position]);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder> {
     private ArrayList<String> date,sub;
+
     HistoryHolder historyHolder;
 
     public HistoryAdapter(ArrayList<String> date,ArrayList<String> sub){
@@ -19,13 +20,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         this.sub = sub;
     }
 
-    public static class HistoryHolder extends RecyclerView.ViewHolder{
-        public TextView dateTextView,remainTextView,subTextView;
+    public static class HistoryHolder extends RecyclerView.ViewHolder {
+        public TextView dateTextView, priceTextView, subTextView;
 
-        public HistoryHolder(View view){
+        public HistoryHolder(View view) {
             super(view);
             this.dateTextView = view.findViewById(R.id.dateText);
             this.subTextView = view.findViewById(R.id.subText);
+            this.priceTextView = view.findViewById(R.id.priceText);
         }
     }
 
@@ -40,8 +42,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
+//        String ex = "충전/+1000";
         holder.dateTextView.setText(this.date.get(position));
-        holder.subTextView.setText(this.sub.get(position));
+        holder.subTextView.setText(this.sub.get(position).split("/")[0]);
+        holder.priceTextView.setText(this.sub.get(position).split("/")[1]);
     }
 
     @Override
