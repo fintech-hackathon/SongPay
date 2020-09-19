@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,28 +51,40 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     // TODO : 노래방 리스트 데이터 불러오면 됩니다.(데이터를 어떻게 불러오실지 몰라서 일단 String[]로 남겨둡니다...)
     ArrayList<String> titleData = new ArrayList<>();
     ArrayList<String> subData = new ArrayList<>();
+    ArrayList<String> roomdata = new ArrayList<>();
+    ArrayList<String> songbymoneydata = new ArrayList<>();
+    ArrayList<String> ownerdata = new ArrayList<>();
 
 
-
-//    String[] o_id;
-//    String[] songbymoney;
-//    String[] roomnum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
-        Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String address = intent.getStringExtra("address");
+
+
 
         naver_Map();
 
-        titleData.add(title);
-        subData.add(address);
+        NetworkTask parser = new NetworkTask(url, temp, "POST");
+        JSONArray array = null;
+        try {
+            result = parser.execute().get();
+            array = new JSONArray(result);
+            JSONObject obj = null;
 
-        for(int i=0;i<titleData.size();i++) {
-            Log.i("msg", titleData.get(i) + "");
+            for(int i=0; i<array.length(); i++) {
+                obj = (JSONObject) array.get(i);
+                titleData.add(obj.get("o_singingroomname").toString());
+                subData.add(obj.get("o_address").toString());
+                roomdata.add(obj.get("o_roomnum").toString());
+                songbymoneydata.add(obj.get("o_songByMoney").toString());
+                ownerdata.add(obj.get("o_id").toString());
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         recyclerView = findViewById(R.id.mapRecyclerView);
@@ -82,15 +93,9 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        try {
-            adapter = new MapAdapter(titleData, subData);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        adapter = new MapAdapter(titleData, subData,roomdata,songbymoneydata,ownerdata);
+
 
         recyclerView.setAdapter(adapter);
         // ListView 클릭 이벤트는 (MapAdapter.java)에 있습니다.
@@ -109,8 +114,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     void naver_Map(){
-        locationSource =
-                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
@@ -143,7 +147,6 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.naverMap = naverMap;
         naverMap.setLocationSource(locationSource);
         NetworkTask parser = new NetworkTask(url, temp, "POST");
-        Log.i("msg","=========");
         try {
             result = parser.execute().get();
         } catch (ExecutionException e) {
@@ -169,8 +172,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
                 e.printStackTrace();
             }
             try {
-                markerPoints.add(new LatLng(Double.parseDouble(obj.get("o_lat").toString()),
-                        Double.parseDouble(obj.get("o_lon").toString())));
+                markerPoints.add(new LatLng(Double.parseDouble(obj.get("o_lat").toString()), Double.parseDouble(obj.get("o_lon").toString())));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
