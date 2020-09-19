@@ -24,30 +24,12 @@
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
     <TextView
-        android:id="@+id/remainText"
+        android:id="@+id/subText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="4000원"
+        android:text="-3000(사용)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="잔액"
-        app:layout_constraintEnd_toStartOf="@+id/remainText"
-        app:layout_constraintTop_toTopOf="@+id/remainText" />
-
-    <TextView
-        android:id="@+id/subText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="-3000(사용)"
-        app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 </androidx.constraintlayout.widget.ConstraintLayout>
