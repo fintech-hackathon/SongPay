@@ -8,13 +8,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder> {
-    private String[] date,remain,sub;
+    private ArrayList<String> date,sub;
     HistoryHolder historyHolder;
 
-    public HistoryAdapter(String[] date, String[] remain,String[] sub){
+    public HistoryAdapter(ArrayList<String> date,ArrayList<String> sub){
         this.date = date;
-        this.remain = remain;
         this.sub = sub;
     }
 
@@ -24,7 +25,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         public HistoryHolder(View view){
             super(view);
             this.dateTextView = view.findViewById(R.id.dateText);
-            this.remainTextView = view.findViewById(R.id.remainText);
             this.subTextView = view.findViewById(R.id.subText);
         }
     }
@@ -40,14 +40,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
-        holder.dateTextView.setText(this.date[position]);
-        holder.remainTextView.setText(this.remain[position]);
-        holder.subTextView.setText(this.sub[position]);
+        holder.dateTextView.setText(this.date.get(position));
+        holder.subTextView.setText(this.sub.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return date.length;
+        return date.size();
     }
 }
 

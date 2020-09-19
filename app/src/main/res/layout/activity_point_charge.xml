@@ -6,28 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".PointChargeActivity">
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp"
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
+        android:layout_marginBottom="16dp"
+        android:hint="입금자 성함"
+        app:layout_constraintBottom_toTopOf="@+id/bankInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:startIconContentDescription="입금자 성함"
-        android:hint="입금자 성함을 입력해주세요."
+        app:startIconContentDescription="계좌 번호"
         app:startIconDrawable="@drawable/ic_account_circle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
-            android:maxLines="1"/>
+            android:enabled="false"
+            android:inputType="none"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bankInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="은행사"
+        app:layout_constraintBottom_toTopOf="@+id/accountTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_bank">
+
+        <AutoCompleteTextView
+            android:id="@+id/bankDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -36,12 +59,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp"
-        android:hint="계좌 번호를 입력해주세요."
-        app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@+id/nameTextInputLayout"
+        android:layout_marginBottom="16dp"
+        android:hint="계좌 번호"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:startIconContentDescription="계좌 번호"
         app:startIconDrawable="@drawable/ic_account_wallet_24">
@@ -50,7 +72,8 @@
             android:id="@+id/accountNumberEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="number"
+            android:enabled="false"
+            android:inputType="none"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,13 +83,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:hint="충전 금액을 입력해주세요."
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:startIconContentDescription="충전 금액"
-        android:hint="충전 금액을 입력해주세요."
         app:startIconDrawable="@drawable/ic_money">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -74,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
-            android:maxLines="1"/>
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -82,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_percent="0.65" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -102,6 +125,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="포인트 충전" />
+
         <Button
             android:id="@+id/qrScanButton"
             android:layout_width="wrap_content"

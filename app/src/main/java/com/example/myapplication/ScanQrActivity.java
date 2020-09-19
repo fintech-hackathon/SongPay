@@ -38,15 +38,21 @@ public class ScanQrActivity extends AppCompatActivity {
 
 
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                String url = "http://115.85.180.70:3001/user/charge";
+                String url = "http://115.85.180.70:3001//user/payment";
 
 
                 SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);
                 String ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
-                String chargePoint = "";
+                String TRAN_AMT = "";
+                String OWNER_ID = "";
+                String ROOM_NUM = "";
                 try{
                     JSONObject obj = new JSONObject(result.getContents());
-                    chargePoint = obj.getString("TRAN_AMT");
+
+                    OWNER_ID = obj.getString("OWNER_ID");
+                    TRAN_AMT = obj.getString("TRAN_AMT");
+                    ROOM_NUM = obj.getString("ROOM_NUM");
+
                 }
                 catch (Exception e){
 
@@ -54,8 +60,12 @@ public class ScanQrActivity extends AppCompatActivity {
 
                 JSONObject object = new JSONObject();
                 try{
+                    object.put("OWNER_ID",OWNER_ID);
                     object.put("CUST_ID",ID);
-                    object.put("TRAN_AMT",chargePoint);
+                    object.put("TRAN_AMT",TRAN_AMT);
+                    object.put("ROOM_NUM",ROOM_NUM);
+                    object.put("TYPE","0");
+                    object.put("DATE","");
                 }
                 catch (Exception e){
                     Log.e("error",e.getMessage());

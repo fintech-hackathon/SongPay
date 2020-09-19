@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusicAdapter.MusicHolder> {
     private int[] image;
-    private String[] title,singer;
+    private String[] title, singer, youtube_url;
 
     MusicHolder musicHolder;
 
-    public HorizontalMusicAdapter(int[] image, String[] title,String[] singer){
+    public HorizontalMusicAdapter(int[] image, String[] title, String[] singer, String[] youtube_url) {
         this.image = image;
         this.title = title;
         this.singer = singer;
+        this.youtube_url = youtube_url;
     }
 
 
@@ -48,6 +51,17 @@ public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusic
         holder.musicImageView.setImageResource(this.image[position]);
         holder.songTitleTextView.setText(this.title[position]);
         holder.singerTextView.setText(this.singer[position]);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
+                playerIntent.putExtra("link", youtube_url[position]);
+
+                context.startActivity(playerIntent);
+            }
+        });
     }
 
     @Override

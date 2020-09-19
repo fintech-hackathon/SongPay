@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,17 +81,19 @@ public class Page3 extends Fragment {
     }
 
     TextView nameTextView, descriptionTextView;
+    AutoCompleteTextView bankDropdownMenu;
     Button confirmButton;
 
     TextInputEditText accountEditText, nameEditText;
 
-    TextInputLayout nameLayout;
+    TextInputLayout nameLayout, accountInputLayout, bankInputLayout;
     LottieAnimationView lottieAnimationView;
 
     String Id;
 
 
     // 가상의 계좌 번호입니다. (이 부분은 DB연동해서 써야 될 겁니다.)
+    String bank = "";
     String accountNumber = "";
     String name = "";
     String result = null;
@@ -101,9 +107,37 @@ public class Page3 extends Fragment {
 
         accountEditText = v.findViewById(R.id.accountNumberEditText);
         nameEditText = v.findViewById(R.id.nameEditText);
-        nameLayout = v.findViewById(R.id.nameTextInputLayout);
+        bankDropdownMenu = v.findViewById(R.id.bankDropdownMenu);
         lottieAnimationView = v.findViewById(R.id.lottieAnimationView);
 
+        nameLayout = v.findViewById(R.id.nameTextInputLayout);
+        accountInputLayout = v.findViewById(R.id.accountInputLayout);
+        bankInputLayout = v.findViewById(R.id.bankInputLayout);
+
+        // 은행선택용 메뉴
+        bankDropdownMenu.setInputType(InputType.TYPE_NULL); // 선택 시(focused), 키보드가 안뜨게.
+        bankDropdownMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu bankSelectMenu = new PopupMenu(getContext(), view);
+
+                // TODO : 은행사들을 메뉴에 추가합니다.
+                bankSelectMenu.getMenu().add("신한");
+                bankSelectMenu.getMenu().add("우리");
+                bankSelectMenu.getMenu().add("국민");
+                bankSelectMenu.show();
+
+                bankSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        // TODO : 드랍다운 메뉴를 선택하면, getTitle(), 제목이 bank변수에 담깁니다. -> bank 이용하시면 되요.
+                        bankDropdownMenu.setText(menuItem.getTitle().toString());
+                        bank = menuItem.getTitle().toString();
+                        return onOptionsItemSelected(menuItem);
+                    }
+                });
+            }
+        });
 
         final JSONObject object = new JSONObject();
 
@@ -127,6 +161,7 @@ public class Page3 extends Fragment {
 
         nameTextView.setText(Id + " 님");
 
+
         // DB에 등록된 계좌번호가 없을 시 if
         if (accountNumber.isEmpty() || accountNumber.equals("null")) {
                 confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +169,8 @@ public class Page3 extends Fragment {
                     public void onClick(View view) {
                             // 계좌번호 등록 이벤트
                             try {
+                                //TODO : 은행사 추가 하시면 되겠습니다.
+                                // bankDropdownMenu.getText().toString(); => 은행사 선택메뉴
                                 accountNumber = accountEditText.getText().toString();
                                 name = nameEditText.getText().toString();
                                 Log.i("msg", accountNumber);
@@ -173,9 +210,12 @@ public class Page3 extends Fragment {
             // TODO : 계좌 정보 불러와 Set 시키면 됩니다.
             accountEditText.setText(accountNumber);
             accountEditText.setEnabled(false);
+            bankDropdownMenu.setEnabled(false);
             lottieAnimationView.setVisibility(View.VISIBLE);
             confirmButton.setVisibility(View.INVISIBLE);
 
+            bankInputLayout.setHint("등록된 은행사");
+            accountInputLayout.setHint("등록된 계좌번호");
         }
 
     }
