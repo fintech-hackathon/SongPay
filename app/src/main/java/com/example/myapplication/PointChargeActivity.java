@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 public class PointChargeActivity extends AppCompatActivity {
 
-    EditText nameEditText, accountNumberEditText, pointChargeEditText;
+    EditText bankDropdownMenu, accountNumberEditText, pointChargeEditText, nameEditText;
     TextInputLayout nameTextInputLayout, accountNumberTextInputLayout;
     Button pointChargeButton, qrScanButton;
 
@@ -38,12 +38,10 @@ public class PointChargeActivity extends AppCompatActivity {
 
         if (bank.equals("")) {
             //계좌가 없을시 리다이렉션 하는곳입니다.
-        } else { //계좌가 있을 경우, UI를 숨깁니다.
-            accountNumberTextInputLayout.setVisibility(View.INVISIBLE);
-            accountNumberEditText.setVisibility(View.INVISIBLE);
-            nameTextInputLayout.setVisibility(View.INVISIBLE);
-            nameEditText.setVisibility(View.INVISIBLE);
-
+        } else { //계좌가 있을 경우, UI Data Set
+            bankDropdownMenu.setText(bank);
+            accountNumberEditText.setText(uAccount);
+            nameEditText.setText(name);
         }
 
         click();
@@ -51,6 +49,7 @@ public class PointChargeActivity extends AppCompatActivity {
 
     void init() {
         nameEditText = findViewById(R.id.nameEditText);
+        bankDropdownMenu = findViewById(R.id.bankDropdownMenu);
         accountNumberEditText = findViewById(R.id.accountNumberEditText);
         pointChargeEditText = findViewById(R.id.pointChargeEditText);
         pointChargeButton = findViewById(R.id.pointChargeButton);
