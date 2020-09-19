@@ -11,19 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusicAdapter.MusicHolder> {
     private int[] image;
-    private String[] title, singer, youtube_url;
+    private ArrayList<String> title, singer, youtube_url;
+    private ArrayList<Integer> views, likes;
 
     MusicHolder musicHolder;
 
-    public HorizontalMusicAdapter(int[] image, String[] title, String[] singer, String[] youtube_url) {
+    public HorizontalMusicAdapter(int[] image, ArrayList<String> title, ArrayList<String> singer, ArrayList<String> youtube_url,ArrayList<Integer> views,  ArrayList<Integer>  likes) {
         this.image = image;
         this.title = title;
         this.singer = singer;
         this.youtube_url = youtube_url;
+        this.views = views;
+        this.likes = likes;
     }
-
 
     public static class MusicHolder extends RecyclerView.ViewHolder{
         public ImageView musicImageView;
@@ -49,16 +53,20 @@ public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusic
     @Override
     public void onBindViewHolder(@NonNull MusicHolder holder, int position) {
         holder.musicImageView.setImageResource(this.image[position]);
-        holder.songTitleTextView.setText(this.title[position]);
-        holder.singerTextView.setText(this.singer[position]);
+        holder.songTitleTextView.setText(this.title.get(position));
+        holder.singerTextView.setText(this.singer.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
-                playerIntent.putExtra("link", youtube_url[position]);
-
+                playerIntent.putStringArrayListExtra("title", title);
+                playerIntent.putStringArrayListExtra("singer", singer);
+                playerIntent.putStringArrayListExtra("link", youtube_url);
+                playerIntent.putIntegerArrayListExtra("likes", likes);
+                playerIntent.putIntegerArrayListExtra("views", views);
+                playerIntent.putExtra("position", position);
                 context.startActivity(playerIntent);
             }
         });
@@ -66,7 +74,7 @@ public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusic
 
     @Override
     public int getItemCount() {
-        return title.length;
+        return title.size();
     }
 }
 

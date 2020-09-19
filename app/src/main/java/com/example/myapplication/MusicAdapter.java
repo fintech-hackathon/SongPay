@@ -29,9 +29,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         this.youtube_url = youtube_url;
         this.views = views;
         this.likes = likes;
-
-
-
     }
 
 
@@ -60,16 +57,16 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
 
     @Override
     public void onBindViewHolder(@NonNull MusicHolder holder, int position) {
-        holder.musicImageView.setImageResource(image[position]);
+
         holder.songTitleTextView.setText(title.get(position));
         holder.singerTextView.setText(singer.get(position));
         holder.recommendTextView.setText(String.valueOf(likes.get(position)));
         holder.viewTextView.setText(String.valueOf(views.get(position)));
+        holder.musicImageView.setImageResource(image[position]);
 
         // 리스트뷰 아이템 클릭시, 음악 재생 화면(MusicPlayerActivity.java)로 전환.
         // TODO : 해당 아이템 youtube 읽어올 데이터 정의해서, playerIntent 랑 같이 전환하면 되겠습니다.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 // TODO : 여기에 조회수 증가하는 로직 짜면 되겠습니다.
@@ -83,9 +80,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
                 playerIntent.putExtra("position", position);
                 context.startActivity(playerIntent);
 
-
-
-
             }
         });
     }
@@ -95,5 +89,4 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         return title.size();
     }
 }
-
 
