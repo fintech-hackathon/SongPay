@@ -64,17 +64,8 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String address = intent.getStringExtra("address");
 
         naver_Map();
-
-        titleData.add(title);
-        subData.add(address);
-
-        for(int i=0;i<titleData.size();i++) {
-            Log.i("msg", titleData.get(i) + "");
-        }
 
         recyclerView = findViewById(R.id.mapRecyclerView);
         layoutManager = new LinearLayoutManager(this);
@@ -109,8 +100,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     void naver_Map(){
-        locationSource =
-                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);

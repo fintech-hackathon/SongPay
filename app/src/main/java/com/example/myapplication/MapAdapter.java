@@ -58,8 +58,6 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
 //            songbymoney[i]=obj.get("o_songByMoney").toString();
 //            roomnum[i]=obj.get("roomnum").toString();
 //            o_id[i]=obj.get("oid").toString();
-
-
         }
 
 
@@ -96,19 +94,19 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
             @Override
             public void onClick(View view) {
                 Context context1 = view.getContext();
-                Context context2 = view.getContext();
+//                Context context2 = view.getContext();
                 Intent reserveIntent = new Intent(context1,ReserveActivity.class);
-                Intent findIntent = new Intent(context2, FindActivity.class);
+//                Intent findIntent = new Intent(context2, FindActivity.class);
                 reserveIntent.putExtra("title", title.get(position));
                 reserveIntent.putExtra("address", address.get(position));
-                findIntent.putExtra("title", title.get(position));
-                findIntent.putExtra("address", address.get(position));
+//                findIntent.putExtra("title", title.get(position));
+//                findIntent.putExtra("address", address.get(position));
 
 //                reserveIntent.putExtra("songbymoney",songbymoney[position]);
 //                reserveIntent.putExtra("roomnum",roomnum[position]);
 //                reserveIntent.putExtra("o_id",o_id[position]);
                 context1.startActivity(reserveIntent);
-                context2.startActivity(findIntent);
+//                context2.startActivity(findIntent);
             }
         });
     }
