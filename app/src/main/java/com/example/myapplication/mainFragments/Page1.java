@@ -141,7 +141,7 @@ public class Page1 extends Fragment {
 
         viewClick();
         // 최근 노래 목록
-        recentMusicListView(v);
+        recentMusicList(v);
         return v;
     }
 
@@ -176,7 +176,7 @@ public class Page1 extends Fragment {
         });
     }
 
-    void recentMusicListView(View v) {
+    void recentMusicList(View v) {
         recyclerView = v.findViewById(R.id.recentMusicListView);
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -184,8 +184,10 @@ public class Page1 extends Fragment {
         // 업로드된 영상 데이터랑 똑같이 맞추면 되겠습니다.
         int[] image = {R.mipmap.ic_musicimage_round, R.mipmap.ic_musicimage_round};
         String[] title = {"[다비치] 8282", "[조정석] 아로하"};
-        String[] singer = {"홍길동", "박찬영"};
+        String[] singer = {"홍길동", "박영"};
 
         adapter = new HorizontalMusicAdapter(image, title, singer);
+
+        recyclerView.setAdapter(adapter);
     }
 }
