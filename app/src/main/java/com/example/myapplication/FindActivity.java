@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,51 +50,30 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     JSONObject temp = new JSONObject();
 
     // TODO : 노래방 리스트 데이터 불러오면 됩니다.(데이터를 어떻게 불러오실지 몰라서 일단 String[]로 남겨둡니다...)
-    String[] titleData = {"악쓰는 하마 2호점", "홍대M가라오케점", "스토리M멀티방", "홍대M가라오케점 2호점", "스토리M멀티방 2호점"};
-    String[] subData = {"서울특별시 마포구 홍익로3길8", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길"};
+    ArrayList<String> titleData = new ArrayList<>();
+    ArrayList<String> subData = new ArrayList<>();
+
+
+
+//    String[] o_id;
+//    String[] songbymoney;
+//    String[] roomnum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
-
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
+        String address = intent.getStringExtra("address");
 
         naver_Map();
 
-        NetworkTask parser = new NetworkTask(url, temp, "POST");
-        try {
-            result = parser.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.i("msg", result);
+        titleData.add(title);
+        subData.add(address);
 
-        JSONArray array = null;
-        try {
-            array = new JSONArray(result);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        for(int i=0; i<array.length(); i++) {
-            JSONObject obj = null;
-            try {
-                obj = (JSONObject) array.get(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.i("msg", obj.toString());
-
-            try {
-                titleData[i] = obj.get("o_singingroomname").toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                subData[i] = obj.get("o_address").toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for(int i=0;i<titleData.size();i++) {
+            Log.i("msg", titleData.get(i) + "");
         }
 
         recyclerView = findViewById(R.id.mapRecyclerView);
@@ -102,7 +82,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-            try {
+        try {
             adapter = new MapAdapter(titleData, subData);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -188,9 +168,9 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("msg", obj.toString());
             try {
-                markerPoints.add(new LatLng(Double.parseDouble(obj.get("o_lat").toString()), Double.parseDouble(obj.get("o_lon").toString())));
+                markerPoints.add(new LatLng(Double.parseDouble(obj.get("o_lat").toString()),
+                        Double.parseDouble(obj.get("o_lon").toString())));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -229,7 +209,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
             // 마커 좌표
             marker.setPosition(markerPoints.get(i));
             marker.setOnClickListener(listener);
-            marker.setTag(titleData[i]);
+            marker.setTag(titleData.get(i));
             markers.add(marker);
         }
 
