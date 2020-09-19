@@ -94,7 +94,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        adapter = new MapAdapter(titleData, subData,roomdata,songbymoneydata,ownerdata);
+        adapter = new MapAdapter(titleData, subData,roomdata,songbymoneydata,ownerdata,getApplicationContext());
 
 
         recyclerView.setAdapter(adapter);
