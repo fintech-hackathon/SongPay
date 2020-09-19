@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,13 +26,19 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
     private ArrayList<String> title,address,room,songbymondy,owner;
     MapHolder mapHolder;
     String result = null;
+    Context context;
+    String ID;
 
-    public MapAdapter(ArrayList<String> title, ArrayList<String> address,ArrayList<String> room,ArrayList<String> songbymondy,ArrayList<String> owner) {
+    public MapAdapter(ArrayList<String> title, ArrayList<String> address,ArrayList<String> room,ArrayList<String> songbymondy,ArrayList<String> owner,Context context) {
         this.title = title;
         this.address = address;
         this.room = room;
         this.songbymondy = songbymondy;
         this.owner = owner;
+        this.context = context;
+
+        SharedPreferences sharedPreferences= context.getApplicationContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
     }
 
     public static class MapHolder extends RecyclerView.ViewHolder{
@@ -62,14 +70,21 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = view.getContext();
-                Intent reserveIntent = new Intent(context,ReserveActivity.class);
-                reserveIntent.putExtra("title",title.get(position));
-                reserveIntent.putExtra("address",address.get(position));
-                reserveIntent.putExtra("room",room.get(position));
-                reserveIntent.putExtra("songbymoney",songbymondy.get(position));
-                reserveIntent.putExtra("owner",owner.get(position));
-                context.startActivity(reserveIntent);
+
+                if(checkReserv(ID)){
+                    Context context = view.getContext();
+                    Intent reserveIntent = new Intent(context,ReserveActivity.class);
+                    reserveIntent.putExtra("title",title.get(position));
+                    reserveIntent.putExtra("address",address.get(position));
+                    reserveIntent.putExtra("room",room.get(position));
+                    reserveIntent.putExtra("songbymoney",songbymondy.get(position));
+                    reserveIntent.putExtra("owner",owner.get(position));
+                    context.startActivity(reserveIntent);
+                }
+                else{
+                    Toast.makeText(context.getApplicationContext(), "이미 예약하셨습니다.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -78,4 +93,26 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
     public int getItemCount() {
         return title.size();
     }
+
+    boolean checkReserv(String id){
+        Log.i("msg","id : "+id);
+        boolean flag = true;
+        String url = "http://115.85.180.70:3001/room/getListByUser";
+
+        JSONObject object = new JSONObject();
+
+        try {
+            object.put("sr_u_id",id);
+            NetworkTask parser = new NetworkTask(url, object, "POST");
+            String result = parser.execute().get();
+            if(!result.isEmpty()){
+                flag = false;
+            }
+        }
+        catch (Exception e){
+        }
+        Log.i("msg","flag : "+flag);
+        return flag;
+    }
+
 }

@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+
 
 public class MusicPlayerActivity extends YouTubeBaseActivity {
 
@@ -64,29 +66,19 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtubeView);
 
         Intent intent = getIntent();
-        title_array = intent.getStringArrayListExtra(("title"));
-        singer_array = intent.getStringArrayListExtra(("singer"));
-        youtube_url_array = intent.getStringArrayListExtra(("link"));
-        views_array = intent.getIntegerArrayListExtra(("likes"));
-        likes_array = intent.getIntegerArrayListExtra(("views"));
 
 
 
-        int position = intent.getIntExtra("position",0);
-        title = title_array.get(position);
-        singer = singer_array.get(position);
-        youtube_url = youtube_url_array.get(position);
-        likes = views_array.get(position);
-        views = likes_array.get(position);
-
-
+        title = intent.getStringExtra("title");
+        singer = intent.getStringExtra("singer");
+        youtube_url = intent.getStringExtra("link");
 
         titleTextView.setText(title);
         singerTextView.setText(singer);
 
 
         // TODO : DB에서 노래정보 불러오면 됩니다.
-        int[] image = {R.mipmap.ic_musicimage_round, R.mipmap.ic_musicimage_round};
+        int[] image = {R.mipmap.ic_cover1_foreground, R.mipmap.ic_cover2_foreground, R.mipmap.ic_cover3_foreground,R.mipmap.ic_cover4_foreground, R.mipmap.ic_cover5_foreground};
 
 //
 //        titleTextView.setText(title);
@@ -116,9 +108,11 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO : 좋아요 클릭 이벤트 처리 하시면 됩니다.
-                Toast.makeText(MusicPlayerActivity.this, "GOOD!", Toast.LENGTH_SHORT).show();
 
+                uplikes(youtube_url);
+
+
+                Toast.makeText(MusicPlayerActivity.this, "GOOD!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -126,7 +120,10 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MusicAdapter(image, title_array, singer_array, youtube_url_array, views_array, likes_array);
+
+
+
+        adapter = new MusicAdapter(image);
 
         recyclerView.setAdapter(adapter);
     }
@@ -139,4 +136,22 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
 
         init();
     }
+
+    void uplikes(String link){
+
+        String url = "http://115.85.180.70:3001/record/uplikes";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("r_url",link);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        networkTask.execute();
+    }
+
+
 }

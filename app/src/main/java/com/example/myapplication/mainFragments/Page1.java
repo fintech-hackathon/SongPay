@@ -25,7 +25,10 @@ import com.example.myapplication.R;
 import com.example.myapplication.FindActivity;
 import com.example.myapplication.util.NetworkTask;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -180,15 +183,35 @@ public class Page1 extends Fragment {
         recyclerView = v.findViewById(R.id.recentMusicListView);
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        String result;
+        String url = "http://115.85.180.70:3001/record/getList";
+        JSONObject object = new JSONObject();
 
-        // TODO : 업로드된 영상 데이터랑 똑같이 맞추면 되겠습니다.
-        int[] image = {R.mipmap.ic_musicimage_round, R.mipmap.ic_musicimage_round};
-        String[] title = {"[다비치] 8282", "[조정석] 아로하"};
-        String[] singer = {"홍길동", "박찬영"};
-        String[] youtube_url = {"FWTfKpZ0VWU", "mxJGDa7ThbE"};
+        // TODO : DB에서 노래정보 불러오면 됩니다.
+        int[] image = {R.mipmap.ic_cover1_foreground, R.mipmap.ic_cover2_foreground, R.mipmap.ic_cover3_foreground,R.mipmap.ic_cover4_foreground, R.mipmap.ic_cover5_foreground};
+        ArrayList<String> title = new ArrayList<>();
+        ArrayList<String> singer = new ArrayList<>();
+        ArrayList<String> youtube_url = new ArrayList<>();
+        ArrayList<Integer> views = new ArrayList<>();
+        ArrayList<Integer> likes = new ArrayList<>();
 
-        adapter = new HorizontalMusicAdapter(image, title, singer, youtube_url);
+        try {
+            NetworkTask parser = new NetworkTask(url, object, "POST");
+            result = parser.execute().get();
+            JSONArray array = new JSONArray(result);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject temp = (JSONObject) array.get(i);
+                title.add(temp.get("r_title").toString());
+                singer.add(temp.get("r_name").toString());
+                youtube_url.add(temp.get("r_url").toString());
+                views.add(Integer.parseInt(temp.get("r_views").toString()));
+                likes.add(Integer.parseInt(temp.get("r_likes").toString()));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        adapter = new HorizontalMusicAdapter(image, title, singer, youtube_url, views, likes);
         recyclerView.setAdapter(adapter);
     }
 }

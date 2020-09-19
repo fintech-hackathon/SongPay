@@ -90,8 +90,6 @@ public class ReserveActivity extends AppCompatActivity {
                 String dd = sdp.format(time);
 
                 strTime = dd+"/"+hourOfDay+"/"+minute;
-
-                Toast.makeText(getApplicationContext(), strTime, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -173,41 +171,41 @@ public class ReserveActivity extends AppCompatActivity {
                 song = song.substring(0,song.length() - 1);
                 room = room.substring(0,room.length() - 9);
 
-                Log.i("msg","ID : " + ID);
-                Log.i("msg","owner : "+owner);
-                Log.i("msg","song : "+song);
-                Log.i("msg","room : "+room);
-                Log.i("msg","TYPE : "+TYPE);
-                Log.i("msg","Date : "+strTime);
+                int TRAN_AMT =  ((Integer.parseInt(song)/Integer.parseInt(songbymoney)) * 1000);
 
-                String url = "http://115.85.180.70:3001/user/payment";
-                JSONObject object = new JSONObject();
-                try{
-                    object.put("OWNER_ID",owner);
-                    object.put("CUST_ID",ID);
-                    object.put("TRAN_AMT",((Integer.parseInt(song)/Integer.parseInt(songbymoney)) * 1000));
-                    object.put("ROOM_NUM",room);
-                    object.put("TYPE",TYPE);
-                    object.put("DATE",strTime);
-                }
-                catch (Exception e){
-                    Log.e("error",e.getMessage());
-                }
+                if(getCharge(ID,TRAN_AMT)){
+                    String url = "http://115.85.180.70:3001/user/payment";
+                    JSONObject object = new JSONObject();
+                    try{
+                        object.put("OWNER_ID",owner);
+                        object.put("CUST_ID",ID);
+                        object.put("TRAN_AMT",TRAN_AMT);
+                        object.put("ROOM_NUM",room);
+                        object.put("TYPE",TYPE);
+                        object.put("DATE",strTime);
+                    }
+                    catch (Exception e){
+                        Log.e("error",e.getMessage());
+                    }
 
-                NetworkTask networkTask = new NetworkTask(url, object,"POST");
-                String res = null;
-                try{
-                    res = networkTask.execute().get();
-                }
-                catch(Exception e){
-                }
-                if(res.equals("success")){
-                    Toast.makeText(getApplicationContext(), "예약이 완료되었습니다!", Toast.LENGTH_SHORT).show();
-                    Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(homeIntent);
+                    NetworkTask networkTask = new NetworkTask(url, object,"POST");
+                    String res = null;
+                    try{
+                        res = networkTask.execute().get();
+                    }
+                    catch(Exception e){
+                    }
+                    if(res.equals("success")){
+                        Toast.makeText(getApplicationContext(), "예약이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                        Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(homeIntent);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "예약을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "예약을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "포인트가 부족합니다.", Toast.LENGTH_SHORT).show();
                 }
 
                 // dialog로 표시
@@ -252,6 +250,47 @@ public class ReserveActivity extends AppCompatActivity {
         hm.put("check",check);
         hm.put("songnum",songnum);
         return hm;
+    }
+
+
+    boolean getCharge(String Id,int money){
+        String url = "http://115.85.180.70:3001/coocon/checkAccount";
+        JSONObject object = new JSONObject();
+        boolean flag = false;
+
+
+        try{
+            object.put("u_id",Id);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        String result = null;
+        String BAL_AMT = "";
+        try{
+            result = networkTask.execute().get();
+
+            JSONObject obj = new JSONObject(result);
+            BAL_AMT = obj.get("BAL_AMT").toString();
+            String REPY_CD = obj.get("REPY_CD").toString();
+
+        }
+        catch(Exception e){
+            Log.i("error",e.getMessage());
+        }
+
+        int amt = Integer.parseInt(BAL_AMT);
+
+        if(amt < money){
+            flag = false;
+        }
+        else{
+            flag = true;
+        }
+
+        return flag;
     }
 
 

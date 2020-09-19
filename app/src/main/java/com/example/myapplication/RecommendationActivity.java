@@ -35,29 +35,29 @@ public class RecommendationActivity extends AppCompatActivity {
         JSONObject object = new JSONObject();
 
         // TODO : DB에서 노래정보 불러오면 됩니다.
-        int[] image = {R.mipmap.ic_musicimage_round, R.mipmap.ic_musicimage_round};
-        ArrayList<String> title = new ArrayList<>();
-        ArrayList<String> singer = new ArrayList<>();
-        ArrayList<String> youtube_url = new ArrayList<>();
-        ArrayList<Integer> view = new ArrayList<>();
-        ArrayList<Integer> likes = new ArrayList<>();
+        int[] image = {R.mipmap.ic_cover1_foreground, R.mipmap.ic_cover2_foreground, R.mipmap.ic_cover3_foreground,R.mipmap.ic_cover4_foreground, R.mipmap.ic_cover5_foreground};
+        ArrayList<Object> title = new ArrayList<>();
+        ArrayList<Object> singer = new ArrayList<>();
+        ArrayList<Object> youtube_url = new ArrayList<>();
+        ArrayList<Object> view = new ArrayList<>();
+        ArrayList<Object> likes = new ArrayList<>();
+
         try {
             NetworkTask parser = new NetworkTask(url, object, "POST");
             result = parser.execute().get();
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject temp = (JSONObject) array.get(i);
-                title.add(temp.get("r_title").toString());
-                singer.add(temp.get("r_name").toString());
-                youtube_url.add(temp.get("r_url").toString());
-                view.add(Integer.parseInt(temp.get("r_views").toString()));
-                likes.add(Integer.parseInt(temp.get("r_likes").toString()));
+                title.add(temp.get("r_title"));
+                singer.add(temp.get("r_name"));
+                youtube_url.add(temp.get("r_url"));
+                view.add(temp.get("r_views"));
+                likes.add(temp.get("r_likes"));
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        adapter = new MusicAdapter(image, title, singer, youtube_url, view, likes);
-
+        adapter = new MusicAdapter(image);
         recyclerView.setAdapter(adapter);
     }
 }
