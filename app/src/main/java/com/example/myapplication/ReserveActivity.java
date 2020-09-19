@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -28,6 +29,10 @@ public class ReserveActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         String address = intent.getStringExtra("address");
+        String songbymoney=intent.getStringExtra("songbymoney");
+        String roomnum = intent.getStringExtra("roomnum");
+        Log.i("msg", songbymoney);
+        Log.i("msg", roomnum);
 
         titleTextView = findViewById(R.id.titleTextView);
         addressTextView = findViewById(R.id.addressTextView);
