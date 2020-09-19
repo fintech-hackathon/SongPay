@@ -116,7 +116,10 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         thumsUpLottieView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO : 좋아요 클릭 이벤트 처리 하시면 됩니다.
+
+                uplikes(youtube_url);
+
+
                 Toast.makeText(MusicPlayerActivity.this, "GOOD!", Toast.LENGTH_SHORT).show();
 
             }
@@ -138,5 +141,21 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_music_player);
 
         init();
+    }
+
+    void uplikes(String link){
+
+        String url = "http://115.85.180.70:3001/record/uplikes";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("r_url",link);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        networkTask.execute();
     }
 }
