@@ -170,7 +170,7 @@ public class Page3 extends Fragment {
                             // 계좌번호 등록 이벤트
                             try {
                                 //TODO : 은행사 추가 하시면 되겠습니다.
-                                // bankDropdownMenu.getText().toString(); => 은행사 선택 메뉴
+                                // bankDropdownMenu.getText().toString(); => 은행사 선택메뉴
                                 accountNumber = accountEditText.getText().toString();
                                 name = nameEditText.getText().toString();
                                 Log.i("msg", accountNumber);
