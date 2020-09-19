@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.util.NetworkTask;
+
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -78,6 +82,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
                 playerIntent.putIntegerArrayListExtra("likes", likes);
                 playerIntent.putIntegerArrayListExtra("views", views);
                 playerIntent.putExtra("position", position);
+
+                uphites(youtube_url.get(position));
+
                 context.startActivity(playerIntent);
 
             }
@@ -87,6 +94,22 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
     @Override
     public int getItemCount() {
         return title.size();
+    }
+
+    void uphites(String link){
+
+        String url = "http://115.85.180.70:3001/record/uphites";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("r_url",link);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        networkTask.execute();
     }
 }
 
