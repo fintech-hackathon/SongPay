@@ -31,9 +31,6 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
         this.room = room;
         this.songbymondy = songbymondy;
         this.owner = owner;
-
-
-
     }
 
     public static class MapHolder extends RecyclerView.ViewHolder{

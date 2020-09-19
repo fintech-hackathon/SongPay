@@ -63,6 +63,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_find);
 
 
+
         naver_Map();
 
         NetworkTask parser = new NetworkTask(url, temp, "POST");
@@ -113,8 +114,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     void naver_Map(){
-        locationSource =
-                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
