@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class MusicPlayerActivity extends YouTubeBaseActivity {
 
@@ -118,7 +119,6 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
             public void onClick(View view) {
                 // TODO : 좋아요 클릭 이벤트 처리 하시면 됩니다.
                 Toast.makeText(MusicPlayerActivity.this, "GOOD!", Toast.LENGTH_SHORT).show();
-
             }
         });
 
