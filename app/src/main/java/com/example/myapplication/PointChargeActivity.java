@@ -15,15 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.util.NetworkTask;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONObject;
 
 public class PointChargeActivity extends AppCompatActivity {
 
-    EditText nameEditText,accountNumberEditText,pointChargeEditText;
-    Button pointChargeButton,qrScanButton;
+    EditText nameEditText, accountNumberEditText, pointChargeEditText;
+    TextInputLayout nameTextInputLayout, accountNumberTextInputLayout;
+    Button pointChargeButton, qrScanButton;
 
-    String name,account,chargePoint,bank,uAccount,ID;
+    String name, account, chargePoint, bank, uAccount, ID;
+
+    boolean hasAccount = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +36,32 @@ public class PointChargeActivity extends AppCompatActivity {
 
         init();
 
-        if(bank.equals("")){
+        if (bank.equals("")) {
             //계좌가 없을시 리다이렉션 하는곳입니다.
+        } else { //계좌가 있을 경우, UI를 숨깁니다.
+            accountNumberTextInputLayout.setVisibility(View.INVISIBLE);
+            accountNumberEditText.setVisibility(View.INVISIBLE);
+            nameTextInputLayout.setVisibility(View.INVISIBLE);
+            nameEditText.setVisibility(View.INVISIBLE);
+
         }
 
         click();
     }
 
-    void init(){
+    void init() {
         nameEditText = findViewById(R.id.nameEditText);
         accountNumberEditText = findViewById(R.id.accountNumberEditText);
         pointChargeEditText = findViewById(R.id.pointChargeEditText);
         pointChargeButton = findViewById(R.id.pointChargeButton);
         qrScanButton = findViewById(R.id.qrScanButton);
 
+        nameTextInputLayout = findViewById(R.id.nameTextInputLayout);
+        accountNumberTextInputLayout = findViewById(R.id.accountTextInputLayout);
 
 
-        SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);
-        ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
+        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+        ID = sharedPreferences.getString("Id", "default Name");  // 불러올려는 key, default Value
 
         String url = "http://115.85.180.70:3001/user/getinfo";
 
@@ -102,7 +114,9 @@ public class PointChargeActivity extends AppCompatActivity {
                     catch (Exception e){
                         Log.e("error",e.getMessage());
                     }
-
+                    Log.i("msg","=======================");
+                    Log.i("msg",object.toString());
+                    Log.i("msg","=======================");
                     NetworkTask networkTask = new NetworkTask(url, object,"POST");
                     String result = null;
                     try{
