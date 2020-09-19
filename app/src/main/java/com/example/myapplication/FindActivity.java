@@ -44,28 +44,22 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     // 네이버 지도 마커 클릭 시, 뜨는 정보창
     InfoWindow infoWindow = new InfoWindow();
-
-    String result;
+    String result=null;
     String url = "http://115.85.180.70:3001/owner/allowner";
     JSONObject temp = new JSONObject();
 
     // TODO : 노래방 리스트 데이터 불러오면 됩니다.(데이터를 어떻게 불러오실지 몰라서 일단 String[]로 남겨둡니다...)
-    String[] titleData = {};
-    String[] subData = {};
-
+    String[] titleData = {"악쓰는 하마 2호점", "홍대M가라오케점", "스토리M멀티방", "홍대M가라오케점 2호점", "스토리M멀티방 2호점"};
+    String[] subData = {"서울특별시 마포구 홍익로3길8", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find);
 
+
         naver_Map();
 
-        recyclerView = findViewById(R.id.mapRecyclerView);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
         NetworkTask parser = new NetworkTask(url, temp, "POST");
-        Log.i("msg","=========");
         try {
             result = parser.execute().get();
         } catch (ExecutionException e) {
@@ -73,6 +67,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.i("msg", result);
 
         JSONArray array = null;
         try {
@@ -80,19 +75,34 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        for(int i=0; i<array.length(); i++) {
+            JSONObject obj = null;
+            try {
+                obj = (JSONObject) array.get(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("msg", obj.toString());
 
-//        for(int i=0; i<array.length(); i++){
-//           JSONObject obj =  (JSONObject) array.get(i);
-//            Log.i("msg", obj.toString());
-//
-//            try {
-//                titleData[i] = obj.get("o_lat").toString();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
+            try {
+                titleData[i] = obj.get("o_singingroomname").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                subData[i] = obj.get("o_address").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
-        try {
+        recyclerView = findViewById(R.id.mapRecyclerView);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+
+            try {
             adapter = new MapAdapter(titleData, subData);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -152,6 +162,40 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull NaverMap naverMap) {
         this.naverMap = naverMap;
         naverMap.setLocationSource(locationSource);
+        NetworkTask parser = new NetworkTask(url, temp, "POST");
+        Log.i("msg","=========");
+        try {
+            result = parser.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        JSONArray array = null;
+        try {
+            array = new JSONArray(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayList<LatLng> markerPoints = new ArrayList<>();
+        // TODO : 이 부분에 좌표값 불러오면 됩니다.
+
+        for(int i=0; i<array.length(); i++){
+            JSONObject obj = null;
+            try {
+                obj = (JSONObject) array.get(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.i("msg", obj.toString());
+            try {
+                markerPoints.add(new LatLng(Double.parseDouble(obj.get("o_lat").toString()), Double.parseDouble(obj.get("o_lon").toString())));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         // 네이버 지도 ui 객체 접근
         UiSettings uiSettings = naverMap.getUiSettings();
@@ -159,13 +203,6 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setLocationButtonEnabled(true);
 
         // 좌표 배열
-        ArrayList<LatLng> markerPoints = new ArrayList<>();
-        // TODO : 이 부분에 좌표값 불러오면 됩니다.
-        markerPoints.add(new LatLng(37.5670135, 126.9783740));
-        markerPoints.add(new LatLng(37.4670145, 126.9383730));
-        markerPoints.add(new LatLng(37.7670155, 126.5783720));
-        markerPoints.add(new LatLng(37.2670165, 126.3783710));
-        markerPoints.add(new LatLng(37.1670175, 126.6283700));
 
         // Marker Data - 마커 배열
         ArrayList<Marker> markers = new ArrayList<>();
