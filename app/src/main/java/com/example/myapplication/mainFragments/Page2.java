@@ -1,6 +1,7 @@
 package com.example.myapplication.mainFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.util.NetworkTask;
 
@@ -123,7 +125,10 @@ public class Page2 extends Fragment {
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    roomdelete(Id);
                     Toast.makeText(getContext(), "쏭페이를 이용해주셔서 감사합니다.", Toast.LENGTH_SHORT).show();
+                    Intent homeIntent = new Intent(getContext(), MainActivity.class);
+                    startActivity(homeIntent);
                 }
             });
         } else {
@@ -192,7 +197,22 @@ public class Page2 extends Fragment {
         }
         catch(Exception e){
         }
-
         return name;
+    }
+
+    void roomdelete(String sr_u_id){
+
+        String url = "http://115.85.180.70:3001/room/roomdelete";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("sr_u_id",sr_u_id);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        networkTask.execute();
     }
 }
