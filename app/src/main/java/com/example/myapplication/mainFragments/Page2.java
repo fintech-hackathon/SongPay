@@ -3,6 +3,7 @@ package com.example.myapplication.mainFragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,12 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.util.NetworkTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,8 +87,7 @@ public class Page2 extends Fragment {
         SharedPreferences sharedPreferences = context.getSharedPreferences("User", Context.MODE_PRIVATE);
         Id = sharedPreferences.getString("Id", "default Name");  // 불러올려는 key, default Value
         // 노래방 예약 내역을 DB 에 저장해서 불러 오면 될 것 같습니다!(isReserve)
-
-        nameTextView.setText(Id + " 님");
+        nameTextView.setText(Id+" 님");
 
     }
 
@@ -94,7 +100,18 @@ public class Page2 extends Fragment {
 
         init(v);
 
+        HashMap<String,String> hm =  getList(Id);
+        isReserve = Boolean.parseBoolean(hm.get("isReserve"));
+
         if (isReserve) {
+            String result = hm.get("result");
+            try{
+                JSONObject obj = new JSONObject(result);
+            }
+            catch (Exception e){
+                
+            }
+
             // 불러온 자료를 여기에 넣으면 됩니다.
             karaokeNameTextView.setText("악쓰는하마 홍대 2호점");
             numberTextView.setText("1번 방");
@@ -116,5 +133,37 @@ public class Page2 extends Fragment {
 
 
         return v;
+    }
+
+    HashMap<String,String> getList(String sr_u_id){
+        HashMap<String,String> hm = new HashMap<>();
+        String url = "http://115.85.180.70:3001/room/getListByUser";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("sr_u_id",sr_u_id);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        String result = null;
+
+        try{
+            result = networkTask.execute().get();
+            if(result.isEmpty()){
+                hm.put("isReserve","false");
+            }
+            else{
+                hm.put("isReserve","true");
+                hm.put("result",result);
+            }
+        }
+        catch(Exception e){
+            Log.i("error",e.getMessage());
+        }
+
+        return hm;
     }
 }
