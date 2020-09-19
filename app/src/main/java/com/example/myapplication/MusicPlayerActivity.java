@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class MusicPlayerActivity extends YouTubeBaseActivity {
 
@@ -64,22 +65,12 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtubeView);
 
         Intent intent = getIntent();
-        title_array = intent.getStringArrayListExtra(("title"));
-        singer_array = intent.getStringArrayListExtra(("singer"));
-        youtube_url_array = intent.getStringArrayListExtra(("link"));
-        views_array = intent.getIntegerArrayListExtra(("likes"));
-        likes_array = intent.getIntegerArrayListExtra(("views"));
 
 
 
-        int position = intent.getIntExtra("position",0);
-        title = title_array.get(position);
-        singer = singer_array.get(position);
-        youtube_url = youtube_url_array.get(position);
-        likes = views_array.get(position);
-        views = likes_array.get(position);
-
-
+        title = intent.getStringExtra("title");
+        singer = intent.getStringExtra("singer");
+        youtube_url = intent.getStringExtra("link");
 
         titleTextView.setText(title);
         singerTextView.setText(singer);
@@ -129,7 +120,10 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MusicAdapter(image, title_array, singer_array, youtube_url_array, views_array, likes_array);
+
+
+
+        adapter = new MusicAdapter(image);
 
         recyclerView.setAdapter(adapter);
     }
@@ -158,4 +152,6 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         NetworkTask networkTask = new NetworkTask(url, object,"POST");
         networkTask.execute();
     }
+
+
 }

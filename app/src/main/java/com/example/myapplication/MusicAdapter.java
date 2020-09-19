@@ -14,25 +14,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.util.NetworkTask;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder> {
     private int[] image;
-    private ArrayList<String> title, singer, youtube_url;
-    private ArrayList<Integer> views, likes;
+    private ArrayList<Object> title, singer, youtube_url,views,likes;
 
     MusicHolder musicHolder;
 
-    public MusicAdapter(int[] image, ArrayList<String> title, ArrayList<String> singer, ArrayList<String> youtube_url, ArrayList<Integer> views,  ArrayList<Integer>  likes) {
+    public MusicAdapter(int[] image) {
         this.image = image;
-        this.title = title;
-        this.singer = singer;
-        this.youtube_url = youtube_url;
-        this.views = views;
-        this.likes = likes;
+
+        HashMap<String,ArrayList<Object>> hm = getList();
+
+
+        this.title = hm.get("title");
+        this.singer = hm.get("singer");
+        this.youtube_url = hm.get("youtube_url");
+        this.views = hm.get("view");
+        this.likes = hm.get("likes");
     }
 
 
@@ -62,10 +66,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
     @Override
     public void onBindViewHolder(@NonNull MusicHolder holder, int position) {
 
-        holder.songTitleTextView.setText(title.get(position));
-        holder.singerTextView.setText(singer.get(position));
-        holder.recommendTextView.setText(String.valueOf(likes.get(position)));
-        holder.viewTextView.setText(String.valueOf(views.get(position)));
+        holder.songTitleTextView.setText(title.get(position).toString());
+        holder.singerTextView.setText(singer.get(position).toString());
+        holder.recommendTextView.setText(likes.get(position).toString());
+        holder.viewTextView.setText(views.get(position).toString());
         holder.musicImageView.setImageResource(image[position]);
 
         // 리스트뷰 아이템 클릭시, 음악 재생 화면(MusicPlayerActivity.java)로 전환.
@@ -76,14 +80,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
                 // TODO : 여기에 조회수 증가하는 로직 짜면 되겠습니다.
                 Context context = view.getContext();
                 Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
-                playerIntent.putStringArrayListExtra("title", title);
-                playerIntent.putStringArrayListExtra("singer", singer);
-                playerIntent.putStringArrayListExtra("link", youtube_url);
-                playerIntent.putIntegerArrayListExtra("likes", likes);
-                playerIntent.putIntegerArrayListExtra("views", views);
-                playerIntent.putExtra("position", position);
+                playerIntent.putExtra("title", title.get(position).toString());
+                playerIntent.putExtra("singer", singer.get(position).toString());
+                playerIntent.putExtra("link", youtube_url.get(position).toString());
 
-                uphites(youtube_url.get(position));
+                uphites(youtube_url.get(position).toString());
 
                 context.startActivity(playerIntent);
 
@@ -110,6 +111,43 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
 
         NetworkTask networkTask = new NetworkTask(url, object,"POST");
         networkTask.execute();
+    }
+
+    HashMap<String,ArrayList<Object>> getList(){
+        HashMap<String, ArrayList<Object>> hm = new HashMap<>();
+        String url = "http://115.85.180.70:3001/record/getList";
+
+        JSONObject object = new JSONObject();
+
+        ArrayList<Object> title = new ArrayList<>();
+        ArrayList<Object> singer = new ArrayList<>();
+        ArrayList<Object> youtube_url = new ArrayList<>();
+        ArrayList<Object> view = new ArrayList<>();
+        ArrayList<Object> likes = new ArrayList<>();
+
+        try {
+            NetworkTask parser = new NetworkTask(url, object, "POST");
+            String result = parser.execute().get();
+            JSONArray array = new JSONArray(result);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject temp = (JSONObject) array.get(i);
+                title.add(temp.get("r_title"));
+                singer.add(temp.get("r_name"));
+                youtube_url.add(temp.get("r_url"));
+                view.add(temp.get("r_views"));
+                likes.add(temp.get("r_likes"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        hm.put("title",title);
+        hm.put("singer",singer);
+        hm.put("youtube_url",youtube_url);
+        hm.put("view",view);
+        hm.put("likes",likes);
+
+        return hm;
     }
 }
 
