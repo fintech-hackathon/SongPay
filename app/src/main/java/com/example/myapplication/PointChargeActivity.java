@@ -39,7 +39,7 @@ public class PointChargeActivity extends AppCompatActivity {
         if (bank.equals("")) {
             //계좌가 없을시 리다이렉션 하는곳입니다.
         } else { //계좌가 있을 경우, UI Data Set
-            bankDropdownMenu.setText(bank);
+            bankDropdownMenu.setText(codeToname(bank));
             accountNumberEditText.setText(uAccount);
             nameEditText.setText(name);
         }
@@ -85,6 +85,7 @@ public class PointChargeActivity extends AppCompatActivity {
             JSONObject obj = new JSONObject(result);
             bank = obj.get("u_bank").toString();
             uAccount = obj.get("u_account").toString();
+            name = obj.get("u_name").toString();
 
 
         }
@@ -140,13 +141,33 @@ public class PointChargeActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        qrScanButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent qrScanIntent = new Intent(getApplicationContext(),ScanQrActivity.class);
-//                startActivity(qrScanIntent);
-//            }
-//        });
+    }
+    String codeToname(String name){
+        String result = "";
+        if(name.equals("002")){
+            result = "산업은행";
+        }
+        else if(name.equals("003")){
+            result = "기업은행";
+        }
+        else if(name.equals("004")){
+            result = "국민은행";
+        }
+        else if(name.equals("005")){
+            result = "하나은행";
+        }
+        else if(name.equals("011")){
+            result = "농협은행";
+        }
+        else if(name.equals("020")){
+            result = "우리은행";
+        }
+        else if(name.equals("081")){
+            result = "하나은행";
+        }
+        else if(name.equals("088")){
+            result = "신한은행";
+        }
+        return result;
     }
 }

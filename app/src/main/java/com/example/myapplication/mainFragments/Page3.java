@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.util.NetworkTask;
 import com.google.android.material.textfield.TextInputEditText;
@@ -122,9 +123,14 @@ public class Page3 extends Fragment {
                 PopupMenu bankSelectMenu = new PopupMenu(getContext(), view);
 
                 // TODO : 은행사들을 메뉴에 추가합니다.
-                bankSelectMenu.getMenu().add("신한");
-                bankSelectMenu.getMenu().add("우리");
-                bankSelectMenu.getMenu().add("국민");
+                bankSelectMenu.getMenu().add("산업은행");
+                bankSelectMenu.getMenu().add("기업은행");
+                bankSelectMenu.getMenu().add("국민은행");
+                bankSelectMenu.getMenu().add("하나은행");
+                bankSelectMenu.getMenu().add("농협은행");
+                bankSelectMenu.getMenu().add("우리은행");
+                bankSelectMenu.getMenu().add("하나은행");
+                bankSelectMenu.getMenu().add("신한은행");
                 bankSelectMenu.show();
 
                 bankSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -153,12 +159,10 @@ public class Page3 extends Fragment {
         result = parser.execute().get();
         JSONObject obj = new JSONObject(result);
 
-        accountNumber = obj.get("u_account").toString();
-        Log.i("msg", "========================");
-        Log.i("msg", result);
-        Log.i("msg", accountNumber);
-        Log.i("msg", "========================");
 
+
+        accountNumber = obj.get("u_account").toString();
+        bank = obj.get("u_bank").toString();
         nameTextView.setText(Id + " 님");
 
 
@@ -170,14 +174,12 @@ public class Page3 extends Fragment {
                             // 계좌번호 등록 이벤트
                             try {
                                 //TODO : 은행사 추가 하시면 되겠습니다.
-                                // bankDropdownMenu.getText().toString(); => 은행사 선택메뉴
+
                                 accountNumber = accountEditText.getText().toString();
                                 name = nameEditText.getText().toString();
-                                Log.i("msg", accountNumber);
-                                Log.i("msg", name);
-                                object.put("u_bank", "003"); // 뱅크값 요망!!
+                                object.put("u_bank", nameTocode(bank));
+//                                object.put("u_bank", nameTocode(bankDropdownMenu.getText().toString()));
                                 object.put("u_account", accountNumber);
-                                // Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
                                 object.put("u_name", name);
 
                                 NetworkTask networkTask = new NetworkTask(url1, object, "POST");
@@ -185,6 +187,8 @@ public class Page3 extends Fragment {
                         try {
                             result = networkTask.execute().get();
                             Toast.makeText(getContext(), "첫 계좌 등록이 성공되었습니다.\n" + accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
+                            Intent homeIntent = new Intent(getContext(), MainActivity.class);
+                            startActivity(homeIntent);
 
                         } catch (Exception e) {
                             Log.i("error", e.getMessage());
@@ -203,11 +207,13 @@ public class Page3 extends Fragment {
 
             // 등록된 계좌번호가 있을 경우
         } else {
+
             descriptionTextView.setText("등록된 계좌가 있습니다.");
             nameLayout.setVisibility(View.INVISIBLE);
             nameEditText.setVisibility(View.INVISIBLE);
 
             // TODO : 계좌 정보 불러와 Set 시키면 됩니다.
+            bankDropdownMenu.setText(codeToname(bank));
             accountEditText.setText(accountNumber);
             accountEditText.setEnabled(false);
             bankDropdownMenu.setEnabled(false);
@@ -232,6 +238,64 @@ public class Page3 extends Fragment {
             Log.i("msg", e.getMessage());
         }
         return v;
+    }
+
+    String nameTocode(String name){
+        String result = "";
+        if(name.equals("산업은행")){
+            result = "002";
+        }
+        else if(name.equals("기업은행")){
+            result = "003";
+        }
+        else if(name.equals("국민은행")){
+            result = "004";
+        }
+        else if(name.equals("하나은행")){
+            result = "005";
+        }
+        else if(name.equals("농협은행")){
+            result = "011";
+        }
+        else if(name.equals("우리은행")){
+            result = "020";
+        }
+        else if(name.equals("하나은행")){
+            result = "081";
+        }
+        else if(name.equals("신한은행")){
+            result = "088";
+        }
+        return result;
+    }
+
+    String codeToname(String name){
+        String result = "";
+        if(name.equals("002")){
+            result = "산업은행";
+        }
+        else if(name.equals("003")){
+            result = "기업은행";
+        }
+        else if(name.equals("004")){
+            result = "국민은행";
+        }
+        else if(name.equals("005")){
+            result = "하나은행";
+        }
+        else if(name.equals("011")){
+            result = "농협은행";
+        }
+        else if(name.equals("020")){
+            result = "우리은행";
+        }
+        else if(name.equals("081")){
+            result = "하나은행";
+        }
+        else if(name.equals("088")){
+            result = "신한은행";
+        }
+        return result;
     }
 
 }
