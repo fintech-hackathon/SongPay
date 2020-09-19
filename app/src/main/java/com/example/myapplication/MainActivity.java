@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.myapplication.mainFragments.Page1;
 import com.example.myapplication.mainFragments.Page2;
 import com.example.myapplication.mainFragments.Page3;
+import com.example.myapplication.mainFragments.QrCodeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Page1 page1Fragment = new Page1();
     Page2 page2Fragment = new Page2();
     Page3 page3Fragment = new Page3();
+    QrCodeFragment qrCodeFragment = new QrCodeFragment();
     String Id,Password;
 
     @Override
@@ -56,10 +58,19 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 fragmentTransaction = fragmentManager.beginTransaction();
 
-                switch(item.getItemId()){
-                    case R.id.page_1 : fragmentTransaction.replace(R.id.frameLayout,page1Fragment).commitAllowingStateLoss(); return true;
-                    case R.id.page_2 : fragmentTransaction.replace(R.id.frameLayout,page2Fragment).commitAllowingStateLoss(); return true;
-                    case R.id.page_3 : fragmentTransaction.replace(R.id.frameLayout,page3Fragment).commitAllowingStateLoss(); return true;
+                switch(item.getItemId()) {
+                    case R.id.page_1:
+                        fragmentTransaction.replace(R.id.frameLayout, page1Fragment).commitAllowingStateLoss();
+                        return true;
+                    case R.id.page_2:
+                        fragmentTransaction.replace(R.id.frameLayout, page2Fragment).commitAllowingStateLoss();
+                        return true;
+                    case R.id.qrPage:
+                        fragmentTransaction.replace(R.id.frameLayout, qrCodeFragment).commitAllowingStateLoss();
+                        return true;
+                    case R.id.page_3:
+                        fragmentTransaction.replace(R.id.frameLayout, page3Fragment).commitAllowingStateLoss();
+                        return true;
                 }
                 return false;
             }

@@ -3,15 +3,20 @@
         android:id="@+id/page_1"
         android:enabled="true"
         android:icon="@drawable/ic_home_icon"
-        android:title="@string/bottom_navigation_label_1"/>
+        android:title="@string/bottom_navigation_label_1" />
     <item
         android:id="@+id/page_2"
         android:enabled="true"
         android:icon="@drawable/ic_reserve"
-        android:title="@string/bottom_navigation_label_2"/>
+        android:title="@string/bottom_navigation_label_2" />
+    <item
+        android:id="@+id/qrPage"
+        android:enabled="true"
+        android:icon="@mipmap/ic_qrcode_foreground"
+        android:title="QR결제" />
     <item
         android:id="@+id/page_3"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/bottom_navigation_label_3"/>
+        android:title="@string/bottom_navigation_label_3" />
 </menu>

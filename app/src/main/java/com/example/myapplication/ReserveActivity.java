@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -15,13 +16,24 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.util.NetworkTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+
 public class ReserveActivity extends AppCompatActivity {
 
-//    노래방이름 , 주소, 가격정보(DB에서?)
+    //    노래방이름 , 주소, 가격정보(DB에서?)
     TextView titleTextView, addressTextView,priceInfoTextView,priceTextView;
     Button reserveButton;
     AutoCompleteTextView roomSelectDropdownMenu, songSelectDropdownMenu;
     TimePicker timePicker;
+    String room,songbymoney,owner,strTime;
 
     PopupMenu roomSelectMenu,songSelectMenu;
 
@@ -29,10 +41,10 @@ public class ReserveActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         String address = intent.getStringExtra("address");
-        String songbymoney=intent.getStringExtra("songbymoney");
-        String roomnum = intent.getStringExtra("roomnum");
-        Log.i("msg", songbymoney);
-        Log.i("msg", roomnum);
+        room = intent.getStringExtra("room");
+        songbymoney = intent.getStringExtra("songbymoney");
+        owner = intent.getStringExtra("owner");
+
 
         titleTextView = findViewById(R.id.titleTextView);
         addressTextView = findViewById(R.id.addressTextView);
@@ -50,6 +62,15 @@ public class ReserveActivity extends AppCompatActivity {
 
         titleTextView.setText(title);
         addressTextView.setText(address);
+        priceInfoTextView.setText(songbymoney+"곡 : 1000원");
+
+
+        Date time = new Date();
+        SimpleDateFormat sdp = new SimpleDateFormat("yyyy/MM/dd/hh/mm");
+        strTime = sdp.format(time);
+
+
+
 
     }
 
@@ -63,25 +84,51 @@ public class ReserveActivity extends AppCompatActivity {
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                String strTime = hourOfDay + " : " + minute;
+
+                Date time = new Date();
+                SimpleDateFormat sdp = new SimpleDateFormat("yyyy/MM/dd");
+                String dd = sdp.format(time);
+
+                strTime = dd+"/"+hourOfDay+"/"+minute;
+
                 Toast.makeText(getApplicationContext(), strTime, Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        String[] RoomsArray = new String[]{"Item 1", "Item 2", "Item 3", "Item 4"};
+
 
         roomSelectDropdownMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 roomSelectMenu = new PopupMenu(getApplicationContext(), view);
 
-                roomSelectMenu.getMenu().add("1번방");
-                roomSelectMenu.getMenu().add("2번방");
-                roomSelectMenu.getMenu().add("3번방");
+                HashMap<String,int[]> hm = getList(owner);
+
+                int roomnum = Integer.parseInt(room);
+                int[] check = hm.get("check");
+                int[] songnum = hm.get("songnum");
+
+                Log.i("msg","check[] : " + Arrays.toString(check));
+                Log.i("msg","songnum[] : " + Arrays.toString(songnum));
+
+
+                for(int i = 0;i < roomnum ; i++){
+                    String title = (i+1)+"번방 ";
+                    if(check[i] == 1){
+                        title += "("+songnum[i]+"곡 남음)";
+                    }
+                    else{
+                        title += "(입장가능)";
+                    }
+                    roomSelectMenu.getMenu().add(title);
+                }
+
                 roomSelectMenu.show();
 
                 roomSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         roomSelectDropdownMenu.setText(menuItem.getTitle().toString());
@@ -96,10 +143,10 @@ public class ReserveActivity extends AppCompatActivity {
             public void onClick(View view) {
                 songSelectMenu = new PopupMenu(getApplicationContext(), view);
 
-                songSelectMenu.getMenu().add("3곡");
-                songSelectMenu.getMenu().add("5곡");
-                songSelectMenu.getMenu().add("10곡");
-                songSelectMenu.getMenu().add("30곡");
+                //x 곡
+                for(int i = 1;i <= 4; i++){
+                    songSelectMenu.getMenu().add((Integer.parseInt(songbymoney)*i)+"곡");
+                }
                 songSelectMenu.show();
 
                 songSelectMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -115,11 +162,96 @@ public class ReserveActivity extends AppCompatActivity {
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "예약이 완료되었습니다!", Toast.LENGTH_SHORT).show();
-                finish();
+
+                SharedPreferences sharedPreferences= getSharedPreferences("User", MODE_PRIVATE);
+
+                String ID = sharedPreferences.getString("Id","default Name");  // 불러올려는 key, default Value
+                final String TYPE = "1";
+
+                String song = songSelectDropdownMenu.getText().toString();
+                String room = roomSelectDropdownMenu.getText().toString();
+                song = song.substring(0,song.length() - 1);
+                room = room.substring(0,room.length() - 9);
+
+                Log.i("msg","ID : " + ID);
+                Log.i("msg","owner : "+owner);
+                Log.i("msg","song : "+song);
+                Log.i("msg","room : "+room);
+                Log.i("msg","TYPE : "+TYPE);
+                Log.i("msg","Date : "+strTime);
+
+                String url = "http://115.85.180.70:3001/user/payment";
+                JSONObject object = new JSONObject();
+                try{
+                    object.put("OWNER_ID",owner);
+                    object.put("CUST_ID",ID);
+                    object.put("TRAN_AMT",((Integer.parseInt(song)/Integer.parseInt(songbymoney)) * 1000));
+                    object.put("ROOM_NUM",room);
+                    object.put("TYPE",TYPE);
+                    object.put("DATE",strTime);
+                }
+                catch (Exception e){
+                    Log.e("error",e.getMessage());
+                }
+
+                NetworkTask networkTask = new NetworkTask(url, object,"POST");
+                String res = null;
+                try{
+                    res = networkTask.execute().get();
+                }
+                catch(Exception e){
+                }
+                if(res.equals("success")){
+                    Toast.makeText(getApplicationContext(), "예약이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                    Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(homeIntent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "예약을 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+
                 // dialog로 표시
             }
         });
+    }
+
+    HashMap<String,int[]> getList(String sr_o_id){
+        String url = "http://115.85.180.70:3001/room/getList";
+        JSONObject object = new JSONObject();
+
+
+        try{
+            object.put("sr_o_id",sr_o_id);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        String result = null;
+
+        int roomnum = Integer.parseInt(room);
+        int[] check = new int[roomnum];
+        int[] songnum = new int[roomnum];
+
+        try{
+            result = networkTask.execute().get();
+
+            JSONArray jsonarr = new JSONArray(result);
+
+            for(int i = 0; i < jsonarr.length() ; i++){
+                JSONObject obj = (JSONObject)jsonarr.get(i);
+                check[Integer.parseInt(obj.get("sr_room").toString())] = 1;
+                songnum[Integer.parseInt(obj.get("sr_room").toString())] = Integer.parseInt(obj.get("sr_song").toString());
+            }
+        }
+        catch(Exception e){
+            Log.i("error",e.getMessage());
+        }
+        HashMap<String,int[]> hm = new HashMap<>();
+        hm.put("check",check);
+        hm.put("songnum",songnum);
+        return hm;
     }
 
 
