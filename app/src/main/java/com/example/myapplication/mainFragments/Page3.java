@@ -13,11 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.util.NetworkTask;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +76,6 @@ public class Page3 extends Fragment {
     Button confirmButton;
 
     TextInputEditText accountEditText, nameEditText;
-    NetworkTask task;
     String Id;
     // 가상의 계좌 번호입니다. (이 부분은 DB연동해서 써야 될 겁니다.)
     String accountNumber = "";
@@ -100,7 +99,7 @@ public class Page3 extends Fragment {
         Id = sharedPreferences.getString("Id", "default Name");  // 불러올려는 key, default Value
 
         object.put("u_id", Id);
-        Log.i( "msg", Id);
+        Log.i("msg", Id);
 
         NetworkTask parser = new NetworkTask(url2, object, "POST");
         result = parser.execute().get();
@@ -113,29 +112,28 @@ public class Page3 extends Fragment {
         // DB에 등록된 계좌번호가 없을 시 if
         if (accountNumber.isEmpty()) {
             // 계좌번호 등록 이벤트
+            try {
+                accountNumber = accountEditText.getText().toString();
+                name = nameEditText.getText().toString();
+                Log.i("msg", accountNumber);
+                Log.i("msg", name);
+                object.put("u_bank", "03"); // 뱅크값 요망!!
+                object.put("u_account", accountNumber);
+                object.put("u_name", name);
+
+                Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                Log.e("error", e.getMessage());
+            }
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                        if (accountEditText.getText().toString() == "" && nameEditText.getText().toString() == "") {
-                            Log.i("msg", "if문 진");
-                            Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                            accountNumber = accountEditText.getText().toString();
-                            name = nameEditText.getText().toString();
-                            object.put("u_bank", "01"); // 뱅크값 요망!!
-                            object.put("u_account", accountNumber);
-                            object.put("u_name", name);
-                            Log.i("msg", "object 파싱 성공");
-                        }
-                    } catch (Exception e) {
-                        Log.e("error", e.getMessage());
-                    }
-
                     NetworkTask networkTask = new NetworkTask(url1, object, "POST");
                     String result = null;
                     try {
                         result = networkTask.execute().get();
-                        Toast.makeText(getContext(), "계좌 등록이 성공되었습니다.\n" +accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "첫 계좌 등록이 성공되었습니다.\n" + accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Log.i("error", e.getMessage());
                     }
@@ -152,22 +150,11 @@ public class Page3 extends Fragment {
         }
 
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_page3, container, false);
-        try {
-            init(v);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return v;
     }
 
