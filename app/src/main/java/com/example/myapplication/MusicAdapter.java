@@ -13,14 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder> {
     private int[] image;
-    private String[] title, singer, youtubeUrl;
+    private String[] title, singer, youtube_url;
 
     MusicHolder musicHolder;
 
-    public MusicAdapter(int[] image, String[] title, String[] singer) {
+    public MusicAdapter(int[] image, String[] title, String[] singer, String[] youtube_url) {
         this.image = image;
         this.title = title;
         this.singer = singer;
+        this.youtube_url = youtube_url;
     }
 
 
@@ -58,7 +59,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
-                playerIntent.putExtra("link", "test youtupe url");
+                playerIntent.putExtra("link", youtube_url[position]);
+
                 context.startActivity(playerIntent);
             }
         });

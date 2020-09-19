@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MusicPlayerActivity">
 
-    <View
-        android:id="@+id/youtubeView"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -23,49 +15,117 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youtubeView">
+        app:layout_constraintTop_toTopOf="@+id/guideline8">
 
-        <TextView
-            android:id="@+id/hashTagTextView"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="#쏭페이" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/titleTextView"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/hashTagTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="#쏭페이" />
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[다비치] 8282"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/singerTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="홍길동" />
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_margin="8dp"
+                android:id="@+id/youtubePlayButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:src="@drawable/ic_baseline_play_circle_filled_24" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="[다비치] 8282"
-            android:textSize="24sp" />
+            android:orientation="horizontal">
+
+            <view
+                android:id="@+id/thumsUpLottieView"
+                class="com.airbnb.lottie.LottieAnimationView"
+                android:layout_width="110dp"
+                android:layout_height="50dp"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="thumsUp.json"
+                app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/anyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이 노래가 마음에 드시나요?\n왼쪽 버튼을 눌러 투표를 해주세요!"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <TextView
-            android:id="@+id/singerTextView"
+            android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="홍길동" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="다음 동영상" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/thumsUpLottieView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="thumsUp.json"
-            app:lottie_loop="true" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/musicListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/anyTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이 노래가 마음에 드시나요?\n위 버튼을 눌러 투표를 해주세요!" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/linkTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="전달된 링크 보기 위한 임시 입니다. 삭제해주세요."
+    <view
+        android:id="@+id/youtubeView"
+        class="com.google.android.youtube.player.YouTubePlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline8"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

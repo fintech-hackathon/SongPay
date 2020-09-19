@@ -21,12 +21,13 @@ public class RecommendationActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // DB에서 사용자 거래내역 불러오면 됩니다.
+        // TODO : DB에서 노래정보 불러오면 됩니다.
         int[] image =  {R.mipmap.ic_musicimage_round,R.mipmap.ic_musicimage_round};
         String[] title =  {"[다비치] 8282","[조정석] 아로하"};
-        String[] singer = {"홍길동","박찬영"};
+        String[] singer = {"홍길동", "박찬영"};
+        String[] youtube_url = {"FWTfKpZ0VWU", "mxJGDa7ThbE"};
 
-        adapter = new MusicAdapter(image, title,singer);
+        adapter = new MusicAdapter(image, title, singer, youtube_url);
 
         recyclerView.setAdapter(adapter);
     }
