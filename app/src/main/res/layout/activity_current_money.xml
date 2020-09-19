@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RemainPointActivity">
+    tools:context=".CurrentMoneyActivity">
 
     <ImageView
         android:id="@+id/imageView5"
@@ -67,24 +67,33 @@
         app:layout_constraintTop_toBottomOf="@+id/nameText">
 
         <Button
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
             android:id="@+id/weekButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="3dp"
             android:text="1주일" />
 
         <Button
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
             android:id="@+id/monthButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="3dp"
             android:text="1개월" />
 
         <Button
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
             android:id="@+id/threeMonthButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_margin="3dp"
             android:text="3개월" />
     </LinearLayout>
 

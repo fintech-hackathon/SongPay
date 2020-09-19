@@ -109,7 +109,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -120,17 +120,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
         <Button
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
             android:id="@+id/pointChargeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="포인트 충전" />
 
-        <Button
-            android:id="@+id/qrScanButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="QR코드 스캔" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

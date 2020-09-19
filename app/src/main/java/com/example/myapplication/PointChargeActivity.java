@@ -53,7 +53,8 @@ public class PointChargeActivity extends AppCompatActivity {
         accountNumberEditText = findViewById(R.id.accountNumberEditText);
         pointChargeEditText = findViewById(R.id.pointChargeEditText);
         pointChargeButton = findViewById(R.id.pointChargeButton);
-        qrScanButton = findViewById(R.id.qrScanButton);
+//        qrScanButton = findViewById(R.id.qrScanButton);
+//        qrScanButton.setVisibility(View.INVISIBLE);
 
         nameTextInputLayout = findViewById(R.id.nameTextInputLayout);
         accountNumberTextInputLayout = findViewById(R.id.accountTextInputLayout);
@@ -132,7 +133,7 @@ public class PointChargeActivity extends AppCompatActivity {
                     }
 //                Toast.makeText(PointChargeActivity.this, "입금자 성함 : " + name + "\n계좌 번호 : " + account + "\n충전 금액 : " + chargePoint, Toast.LENGTH_SHORT).show();
                     Toast.makeText(PointChargeActivity.this, "충전이 완료되었습니다!", Toast.LENGTH_SHORT).show();
-                    Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(homeIntent);
                 } else {
                     Toast.makeText(PointChargeActivity.this, "값을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -140,12 +141,12 @@ public class PointChargeActivity extends AppCompatActivity {
             }
         });
 
-        qrScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent qrScanIntent = new Intent(getApplicationContext(),ScanQrActivity.class);
-                startActivity(qrScanIntent);
-            }
-        });
+//        qrScanButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent qrScanIntent = new Intent(getApplicationContext(),ScanQrActivity.class);
+//                startActivity(qrScanIntent);
+//            }
+//        });
     }
 }
