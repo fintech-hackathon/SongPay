@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.util.NetworkTask;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapFragment;
@@ -22,8 +24,13 @@ import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.util.FusedLocationSource;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class FindActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
@@ -38,9 +45,13 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
     // 네이버 지도 마커 클릭 시, 뜨는 정보창
     InfoWindow infoWindow = new InfoWindow();
 
+    String result;
+    String url = "http://115.85.180.70:3001/owner/allowner";
+    JSONObject temp = new JSONObject();
+
     // TODO : 노래방 리스트 데이터 불러오면 됩니다.(데이터를 어떻게 불러오실지 몰라서 일단 String[]로 남겨둡니다...)
-    String[] titleData = {"악쓰는 하마 2호점", "홍대M가라오케점", "스토리M멀티방", "홍대M가라오케점 2호점", "스토리M멀티방 2호점"};
-    String[] subData = {"서울특별시 마포구 홍익로3길8", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길", "서울특별시 마포구 와우산로 315", "서울특별시 마포구 양화로 183번길"};
+    String[] titleData = {};
+    String[] subData = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +64,43 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        NetworkTask parser = new NetworkTask(url, temp, "POST");
+        Log.i("msg","=========");
+        try {
+            result = parser.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        adapter = new MapAdapter(titleData, subData);
+        JSONArray array = null;
+        try {
+            array = new JSONArray(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        for(int i=0; i<array.length(); i++){
+//           JSONObject obj =  (JSONObject) array.get(i);
+//            Log.i("msg", obj.toString());
+//
+//            try {
+//                titleData[i] = obj.get("o_lat").toString();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        try {
+            adapter = new MapAdapter(titleData, subData);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         recyclerView.setAdapter(adapter);
         // ListView 클릭 이벤트는 (MapAdapter.java)에 있습니다.
