@@ -37,7 +37,6 @@ public class ScanQrActivity extends AppCompatActivity {
             } else {
 
 
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 String url = "http://115.85.180.70:3001//user/payment";
 
 
