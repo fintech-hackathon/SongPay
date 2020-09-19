@@ -136,14 +136,14 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("error", e.getMessage());
                     }
 
-//                    if(result.equals("success")){
-                    // 로그인 성공
-                    LoginSuccess(ID, Password);
-                    startActivity(homeIntent);
-//                    }else{
-                    //Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
-//                        accountDialog.show();
-//                    }
+                    if (result.equals("success")) {
+                        // 로그인 성공
+                        LoginSuccess(ID, Password);
+                        startActivity(homeIntent);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "아이디와 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                        accountDialog.show();
+                    }
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Required password over 8 characters",Toast.LENGTH_SHORT).show();

@@ -118,57 +118,60 @@ public class Page3 extends Fragment {
         NetworkTask parser = new NetworkTask(url2, object, "POST");
         result = parser.execute().get();
         JSONObject obj = new JSONObject(result);
-        Log.i("msg", result);
+
         accountNumber = obj.get("u_account").toString();
+        Log.i("msg", "========================");
+        Log.i("msg", result);
+        Log.i("msg", accountNumber);
+        Log.i("msg", "========================");
 
         nameTextView.setText(Id + " 님");
 
         // DB에 등록된 계좌번호가 없을 시 if
-        if (accountNumber.isEmpty()) {
-            // 계좌번호 등록 이벤트
-            try {
-                accountNumber = accountEditText.getText().toString();
-                name = nameEditText.getText().toString();
-                Log.i("msg", accountNumber);
-                Log.i("msg", name);
-                object.put("u_bank", "03"); // 뱅크값 요망!!
-                object.put("u_account", accountNumber);
-                object.put("u_name", name);
+        if (accountNumber.isEmpty() || accountNumber.equals("null")) {
+                confirmButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            // 계좌번호 등록 이벤트
+                            try {
+                                accountNumber = accountEditText.getText().toString();
+                                name = nameEditText.getText().toString();
+                                Log.i("msg", accountNumber);
+                                Log.i("msg", name);
+                                object.put("u_bank", "003"); // 뱅크값 요망!!
+                                object.put("u_account", accountNumber);
+                                // Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                object.put("u_name", name);
 
-                Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                NetworkTask networkTask = new NetworkTask(url1, object, "POST");
+                                String result = null;
+                        try {
+                            result = networkTask.execute().get();
+                            Toast.makeText(getContext(), "첫 계좌 등록이 성공되었습니다.\n" + accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
 
-            } catch (Exception e) {
-                Log.e("error", e.getMessage());
+                        } catch (Exception e) {
+                            Log.i("error", e.getMessage());
+                        }
+
+                        if (result.equals("success")) {
+                            Log.i("msg", "success");
+                        } else {
+                            Log.i("msg", "fail");
+                        }
+                    } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
             }
-            confirmButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    NetworkTask networkTask = new NetworkTask(url1, object, "POST");
-                    String result = null;
-                    try {
-                        result = networkTask.execute().get();
-                        Toast.makeText(getContext(), "첫 계좌 등록이 성공되었습니다.\n" + accountNumber + "\n" + name, Toast.LENGTH_SHORT).show();
+                    });
 
-                    } catch (Exception e) {
-                        Log.i("error", e.getMessage());
-                    }
-
-                    if (result.equals("success")) {
-                        Log.i("msg", "success");
-                    } else {
-                        Log.i("msg", "fail");
-                    }
-                }
-            });
-        }
-        // 등록된 계좌번호가 있을 경우
-        else {
+            // 등록된 계좌번호가 있을 경우
+        } else {
             descriptionTextView.setText("등록된 계좌가 있습니다.");
             nameLayout.setVisibility(View.INVISIBLE);
             nameEditText.setVisibility(View.INVISIBLE);
 
             // TODO : 계좌 정보 불러와 Set 시키면 됩니다.
-            accountEditText.setText("123-456789-12");
+            accountEditText.setText(accountNumber);
             accountEditText.setEnabled(false);
             lottieAnimationView.setVisibility(View.VISIBLE);
             confirmButton.setVisibility(View.INVISIBLE);
@@ -181,6 +184,13 @@ public class Page3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_page3, container, false);
+        try {
+            init(v);
+
+
+        } catch (Exception e){
+            Log.i("msg", e.getMessage());
+        }
         return v;
     }
 
