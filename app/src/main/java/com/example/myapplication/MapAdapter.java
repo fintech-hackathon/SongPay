@@ -43,6 +43,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.MapHolder> {
         holder.titleTextView.setText(this.title[position]);
         holder.subTextView.setText(this.address[position]);
 
+        // 리스트뷰 아이템 클릭시, 예약화면(reserveActivity)로 전환.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
