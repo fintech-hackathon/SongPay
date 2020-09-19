@@ -86,7 +86,7 @@ public class Page3 extends Fragment {
 
 
     // 가상의 계좌 번호입니다. (이 부분은 DB연동해서 써야 될 겁니다.)
-    String accountNumber = "";
+    String accountNumber = "3123213213";
     String name = "";
     String result = null;
     String url1 = "http://115.85.180.70:3001/user/updateAccount";
@@ -122,7 +122,7 @@ public class Page3 extends Fragment {
         nameTextView.setText(Id + " 님");
 
         // DB에 등록된 계좌번호가 없을 시 if
-        if (accountNumber.isEmpty()) {
+        if (accountNumber == "") {
             // 계좌번호 등록 이벤트
             confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
