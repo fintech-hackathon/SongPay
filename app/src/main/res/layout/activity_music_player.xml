@@ -41,14 +41,12 @@
                     android:id="@+id/titleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="[다비치] 8282"
                     android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/singerTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="홍길동" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <ImageButton

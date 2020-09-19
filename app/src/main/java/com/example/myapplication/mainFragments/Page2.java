@@ -107,15 +107,17 @@ public class Page2 extends Fragment {
             String result = hm.get("result");
             try{
                 JSONObject obj = new JSONObject(result);
+
+
+                numberTextView.setText(obj.get("sr_room") +"번 방");
+                songTextView.setText(obj.get("sr_song") + "곡");
+
+                String name = getSingingRoomName(obj.get("sr_o_id").toString());
+                karaokeNameTextView.setText(name);
             }
             catch (Exception e){
-                
-            }
 
-            // 불러온 자료를 여기에 넣으면 됩니다.
-            karaokeNameTextView.setText("악쓰는하마 홍대 2호점");
-            numberTextView.setText("1번 방");
-            songTextView.setText("5곡");
+            }
 
             // 노래방 이용 시작!
             confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -165,5 +167,32 @@ public class Page2 extends Fragment {
         }
 
         return hm;
+    }
+
+    String getSingingRoomName(String o_id){
+
+        String url = "http://115.85.180.70:3001/owner/getOwner";
+        JSONObject object = new JSONObject();
+
+        try{
+            object.put("o_id",o_id);
+        }
+        catch (Exception e){
+            Log.e("error",e.getMessage());
+        }
+
+        NetworkTask networkTask = new NetworkTask(url, object,"POST");
+        String result = null;
+
+        String name = "";
+        try{
+            result = networkTask.execute().get();
+            JSONObject obj = new JSONObject(result);
+            name = obj.get("o_singingroomname").toString();
+        }
+        catch(Exception e){
+        }
+
+        return name;
     }
 }
