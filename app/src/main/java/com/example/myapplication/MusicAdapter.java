@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder> {
     private int[] image;
-    private String[] title,singer;
+    private String[] title, singer, youtubeUrl;
 
     MusicHolder musicHolder;
 
-    public MusicAdapter(int[] image, String[] title,String[] singer){
+    public MusicAdapter(int[] image, String[] title, String[] singer) {
         this.image = image;
         this.title = title;
         this.singer = singer;
@@ -48,6 +50,18 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicHolder>
         holder.musicImageView.setImageResource(this.image[position]);
         holder.songTitleTextView.setText(this.title[position]);
         holder.singerTextView.setText(this.singer[position]);
+
+        // 리스트뷰 아이템 클릭시, 음악 재생 화면(MusicPlayerActivity.java)로 전환.
+        // TODO : 해당 아이템 youtube 읽어올 데이터 정의해서, playerIntent 랑 같이 전환하면 되겠습니다.
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
+                playerIntent.putExtra("link", "test youtupe url");
+                context.startActivity(playerIntent);
+            }
+        });
     }
 
     @Override
