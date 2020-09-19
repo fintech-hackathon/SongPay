@@ -102,7 +102,9 @@ public class PointChargeActivity extends AppCompatActivity {
                     catch (Exception e){
                         Log.e("error",e.getMessage());
                     }
-
+                    Log.i("msg","=======================");
+                    Log.i("msg",object.toString());
+                    Log.i("msg","=======================");
                     NetworkTask networkTask = new NetworkTask(url, object,"POST");
                     String result = null;
                     try{
