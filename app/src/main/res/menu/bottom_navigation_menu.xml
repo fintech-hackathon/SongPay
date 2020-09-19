@@ -12,7 +12,7 @@
     <item
         android:id="@+id/qrPage"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_camera_24"
+        android:icon="@mipmap/ic_qrcode_foreground"
         android:title="QR결제" />
     <item
         android:id="@+id/page_3"
