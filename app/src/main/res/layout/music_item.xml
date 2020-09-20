@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/musicImageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srcCompat="@mipmap/ic_musicimage_round" />
 
     <LinearLayout
@@ -20,6 +20,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/songTitleTextView"
             android:layout_width="match_parent"
