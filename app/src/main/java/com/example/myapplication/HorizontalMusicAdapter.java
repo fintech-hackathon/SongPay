@@ -78,4 +78,3 @@ public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusic
     }
 }
 
-
