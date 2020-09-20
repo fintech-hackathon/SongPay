@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,12 +62,15 @@ public class HorizontalMusicAdapter extends RecyclerView.Adapter<HorizontalMusic
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent playerIntent = new Intent(context, MusicPlayerActivity.class);
-                playerIntent.putStringArrayListExtra("title", title);
-                playerIntent.putStringArrayListExtra("singer", singer);
-                playerIntent.putStringArrayListExtra("link", youtube_url);
-                playerIntent.putIntegerArrayListExtra("likes", likes);
-                playerIntent.putIntegerArrayListExtra("views", views);
+                playerIntent.putExtra("title", title.get(position));
+                playerIntent.putExtra("singer", singer.get(position));
+                playerIntent.putExtra("link", youtube_url.get(position));
+                playerIntent.putExtra("likes", likes);
+                playerIntent.putExtra("views", views);
                 playerIntent.putExtra("position", position);
+
+//                Toast.makeText(context.getApplicationContext(), title+ "" +singer+ "" +youtube_url, Toast.LENGTH_SHORT).show();
+
                 context.startActivity(playerIntent);
             }
         });

@@ -70,20 +70,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <view
-                android:id="@+id/thumsUpLottieView"
-                class="com.airbnb.lottie.LottieAnimationView"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                app:lottie_autoPlay="true"
-                app:lottie_fileName="thumsUp.json"
-                app:lottie_loop="true" />
-
             <TextView
+                android:layout_margin="8dp"
+                android:layout_weight="1"
                 android:id="@+id/anyTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="이 노래가 마음에 드시나요?\n왼쪽 버튼을 눌러 투표를 해주세요!"
+                android:text="이 노래가 마음에 드시나요?\n오른쪽 하단 버튼을 눌러 투표를 해주세요!"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -106,10 +99,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/musicListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
@@ -131,5 +125,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/recommendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="36dp"
+        android:background="@color/colorAccent"
+        android:clickable="true"
+
+        android:src="@drawable/ic_baseline_thumb_up_24"
+        app:backgroundTint="#673AB7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

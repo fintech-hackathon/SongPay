@@ -180,6 +180,7 @@ public class Page3 extends Fragment {
                                 object.put("u_bank", nameTocode(bank));
 //                                object.put("u_bank", nameTocode(bankDropdownMenu.getText().toString()));
                                 object.put("u_account", accountNumber);
+                                // Toast.makeText(getContext(), "계좌번호 or 입금자 성함을 입력해주세요.", Toast.LENGTH_SHORT).show();
                                 object.put("u_name", name);
 
                                 NetworkTask networkTask = new NetworkTask(url1, object, "POST");
@@ -207,7 +208,6 @@ public class Page3 extends Fragment {
 
             // 등록된 계좌번호가 있을 경우
         } else {
-
             descriptionTextView.setText("등록된 계좌가 있습니다.");
             nameLayout.setVisibility(View.INVISIBLE);
             nameEditText.setVisibility(View.INVISIBLE);

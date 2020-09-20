@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.myapplication.util.NetworkTask;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -35,7 +36,7 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
 
     TextView hashTagTextView, titleTextView, singerTextView;
     ImageButton youtubePlayButton;
-    LottieAnimationView thumsUpLottieView;
+    FloatingActionButton recommendButton;
 
     YouTubePlayer.OnInitializedListener listener; // 이벤트처리, 리스너가 초기화가 됐을 때,
 
@@ -62,7 +63,7 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
         titleTextView = findViewById(R.id.titleTextView);
         singerTextView = findViewById(R.id.singerTextView);
         youtubePlayButton = findViewById(R.id.youtubePlayButton);
-        thumsUpLottieView = findViewById(R.id.thumsUpLottieView);
+        recommendButton = findViewById(R.id.recommendButton);
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtubeView);
 
         Intent intent = getIntent();
@@ -105,7 +106,7 @@ public class MusicPlayerActivity extends YouTubeBaseActivity {
             }
         });
 
-        thumsUpLottieView.setOnClickListener(new View.OnClickListener() {
+        recommendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
