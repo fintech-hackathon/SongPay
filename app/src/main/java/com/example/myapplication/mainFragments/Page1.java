@@ -188,7 +188,7 @@ public class Page1 extends Fragment {
         JSONObject object = new JSONObject();
 
         // TODO : DB에서 노래정보 불러오면 됩니다.
-        int[] image = {R.mipmap.ic_cover1_foreground, R.mipmap.ic_cover2_foreground, R.mipmap.ic_cover3_foreground,R.mipmap.ic_cover4_foreground, R.mipmap.ic_cover5_foreground};
+        int[] image = {R.mipmap.ic_cover1_foreground, R.mipmap.ic_cover2_foreground, R.mipmap.ic_cover5_foreground, R.mipmap.ic_cover3_foreground,R.mipmap.ic_cover4_foreground};
         ArrayList<String> title = new ArrayList<>();
         ArrayList<String> singer = new ArrayList<>();
         ArrayList<String> youtube_url = new ArrayList<>();
