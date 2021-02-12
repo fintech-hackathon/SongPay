@@ -18,6 +18,7 @@
  
  
 ### 서비스 내용(현금이나 카드 결제가 필요없는 간편 결제 노래방 서비스)
+<a href="/SongPay/SSongPay%20PPT.pdf" target="_blank">SSong Pay PPT</a>
 #### 주요 고객
 - 코인노래방을 이용하는 2030 혼족
 #### 경쟁력
