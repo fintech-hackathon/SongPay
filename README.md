@@ -1,7 +1,7 @@
 # 제 8회 핀테크 해커톤 공모전
 
 ### 씽송 팀 - SongPay(간편 코인노래방 결제 서비스)
-- <a href="https://github.com/Dolphin-PC" target="_blank">박찬영</a>(팀장 / 개발(Android-Front), 총괄기획 )
+- <a href="https://github.com/Dolphin-PC" target="_blank">박찬영</a>(팀장 / 개발(Android-Front), 기획)
 - <a href="https://github.com/MinzyKim" target="_blank">김민지</a>(팀원 / 개발(Back-End, DB), 기획)
 - <a href="https://github.com/BONOBONOBOo" target="_blank">이원호</a>(팀원 / 개발(Back-End, API))
 - <a href="https://github.com/scalarH" target="_blank">황지우</a>(팀원 / 개발(Android-Front), 기획, 디자인)
