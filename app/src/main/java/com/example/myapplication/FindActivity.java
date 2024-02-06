@@ -32,6 +32,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * 1. 네이버 지도 초기화 - naver_Map() 함수
+ * 1-1. 위치찾기권한확인 (onRequestPermissionsResult() 함수)
+ * 1-2. 지도준비 완료 시 (onMapReady() 함수)
+ *    - DB에 저장된 노래방 좌표값 호출(API)
+ *    - 좌표값으로 마커정보생성 (이벤트할당, 위치값, TagName)
+ *    - 마커, 네이버지도 매핑
+ */
+
+/**
+ * 2. 리스트 뷰 초기화
+ *   - API 호출 및 데이터 매핑
+ */
+
 public class FindActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     private FusedLocationSource locationSource;
@@ -66,6 +80,7 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         naver_Map();
 
+        // START 스크롤 뷰, 데이터 초기화 //
         NetworkTask parser = new NetworkTask(url, temp, "POST");
         JSONArray array = null;
         try {
@@ -99,8 +114,9 @@ public class FindActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         recyclerView.setAdapter(adapter);
         // ListView 클릭 이벤트는 (MapAdapter.java)에 있습니다.
+        // 스크롤 뷰, 데이터 초기화 END //
 
-
+        
         // 정보창 이름 설정
         infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(getApplicationContext()) {
             @NonNull
