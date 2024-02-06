@@ -81,7 +81,7 @@ public class ScanQrActivity extends AppCompatActivity {
                     Log.i("error",e.getMessage());
                 }
 //                Toast.makeText(PointChargeActivity.this, "입금자 성함 : " + name + "\n계좌 번호 : " + account + "\n충전 금액 : " + chargePoint, Toast.LENGTH_SHORT).show();
-                Toast.makeText(ScanQrActivity.this, "충전이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScanQrActivity.this, "결제가 완료되었습니다!", Toast.LENGTH_SHORT).show();
 
                 Intent homeIntent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(homeIntent);
