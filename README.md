@@ -25,8 +25,11 @@
 
 [서비스 플로우](https://www.figma.com/proto/b302LrYEx1QCy2B774Nktg/SSongPay_Android?type=design&node-id=165-18&t=vBRsfKlCwSU6bRev-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=165%3A18)
 
-- 계좌잔액 조회 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/CurrentMoneyActivity.java#L139) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L66))
-- 계좌출금 및 포인트 충전 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/PointChargeActivity.java#L99) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java#L148) / [쿠콘API](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L163))
+- 포인트(상품권)잔액 조회 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/CurrentMoneyActivity.java#L139) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L66))
+  - 계좌출금을 통해 구매한 포인트의 잔액을 조회합니다.
+- 계좌출금 및 포인트(상품권) 충전 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/PointChargeActivity.java#L99) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java#L148) / [쿠콘API](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L163))
+  - 등록된 계좌의 출금을 통해, 포인트(상품권)을 구매합니다.
+  - 쿠콘의 상품권 구매API 활용
 - QR인식 및 포인트 결제 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/ScanQrActivity.java#L31) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java#L200) / [쿠콘API](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L271))
   - [zxing 라이브러리](https://github.com/journeyapps/zxing-android-embedded)
 - 내 근처 노래방 찾기 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/FindActivity.java#L162) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/owner/OwnerController.java#L27))
