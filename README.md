@@ -1,8 +1,7 @@
 # 제 8회 핀테크 해커톤 공모전
 
-## 씽송 팀 - SongPay(간편 코인노래방 결제 서비스)
-
-#### 현금이나 카드 결제가 필요없는 간편 결제 노래방 서비스
+### 씽송 팀 - SongPay(코인노래방 간편결제 서비스)
+> 현금이나 카드 결제가 필요없는 간편 결제 노래방 서비스
 
 - <a href="https://github.com/Dolphin-PC" target="_blank">박찬영</a>(팀장 / 개발(Android-Front), 기획)
 - <a href="https://github.com/MinzyKim" target="_blank">김민지</a>(팀원 / 개발(Back-End, DB), 기획)
@@ -14,30 +13,29 @@
 <img width="300" src="https://raw.githubusercontent.com/fintech-hackathon/android-front/master/2020%EB%85%84%20%EC%A0%9C8%ED%9A%8C%20%ED%95%80%ED%85%8C%ED%81%AC%20%ED%95%B4%EC%BB%A4%ED%86%A4%20%EC%83%81%EC%9E%A5(%EC%B5%9C%EC%9A%B0%EC%88%98%EC%83%81)_%EC%94%BD%EC%86%A1.jpg"/>
 
 ### 개발 스택
-
 - Front-End : Android
 - Back-End : [Spring](https://github.com/fintech-hackathon/spring)
 - Database : mysql
 - API : Open Banking API(via 쿠콘) (거래내역, 상품권잔액조회, 입금/출금 이체 등)
 - Others : 네이버 지도 API, 유튜브 API
 
-### 구현 기능
+### 서비스 주요기능
 
 [서비스 플로우](https://www.figma.com/proto/b302LrYEx1QCy2B774Nktg/SSongPay_Android?type=design&node-id=165-18&t=vBRsfKlCwSU6bRev-0&scaling=scale-down&page-id=0%3A1&starting-point-node-id=165%3A18)
 
 - 포인트(상품권)잔액 조회 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/CurrentMoneyActivity.java#L139) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L66))
   - 계좌출금을 통해 구매한 포인트의 잔액을 조회합니다.
 - 계좌출금 및 포인트(상품권) 충전 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/PointChargeActivity.java#L99) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java#L148) / [쿠콘API](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L163))
-  - 등록된 계좌의 출금을 통해, 포인트(상품권)을 구매합니다.
   - 쿠콘의 상품권 구매API 활용
+  - 등록된 계좌의 출금을 통해, 포인트(상품권)을 구매합니다.
 - QR인식 및 포인트 결제 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/ScanQrActivity.java#L31) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java#L200) / [쿠콘API](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/concon/CooconController.java#L271))
   - [zxing 라이브러리](https://github.com/journeyapps/zxing-android-embedded)
 - 내 근처 노래방 찾기 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/FindActivity.java#L162) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/owner/OwnerController.java#L27))
   - [네이버지도 API](https://www.ncloud.com/product/applicationService/maps)
   - 노래방 예약하기 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/ReserveActivity.java#L160) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/user/UserController.java))
 - 쏭어워즈 ([Android](https://github.com/fintech-hackathon/SongPay/blob/master/app/src/main/java/com/example/myapplication/MusicPlayerActivity.java#L88) / [Spring](https://github.com/fintech-hackathon/spring/blob/master/singsong/src/main/java/com/singsong/singsong/controller/record/RecordController.java#L28))
-  - 일반인들의 노래를 업로드하고, 투표하는 경연대회
-  - _(노래 녹음 및 업로드, 미구현)_
+  - 일반인들의 노래를 업로드하고, 투표하는 경연대회입니다.
+  - *(노래 녹음 및 업로드, 미구현)*
 
 ### 결과물
 
